@@ -19,5 +19,20 @@
     "url": "https://github.com/jfugett/blurr/issues"
   },
   "homepage": "https://github.com/jfugett/blurr",
-  "private": true
+  "private": true,
+  "devDependencies": {
+    "grunt": "^0.4.2",
+    "load-grunt-tasks": "^0.4.0",
+    "load-grunt-configs": "^0.3.2",
+    "time-grunt": "^0.2.10",
+    "grunt-contrib-jshint": "^0.8.0",
+    "grunt-contrib-watch": "^0.5.3",
+    "grunt-notify": "^0.2.18"
+  },
+  "dependencies": {
+    "async": "^0.2.10",
+    "lodash": "^2.4.1",
+    "express": "^4.0.0-rc2",
+    "mongoose": "^3.8.8"
+  }
 }

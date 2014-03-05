@@ -1,0 +1,23 @@
+{
+  "name": "Blurr",
+  "version": "0.0.1",
+  "description": "Build applications so fast everybody else will see a blurr",
+  "main": "app/server.js",
+  "scripts": {
+    "test": "grunt test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/jfugett/blurr.git"
+  },
+  "keywords": [
+    "Framework"
+  ],
+  "author": "Joshwa Fugett <jfugett27@gmail.com>",
+  "license": "Private",
+  "bugs": {
+    "url": "https://github.com/jfugett/blurr/issues"
+  },
+  "homepage": "https://github.com/jfugett/blurr",
+  "private": true
+}

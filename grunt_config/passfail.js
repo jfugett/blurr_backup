@@ -3,14 +3,14 @@
 module.exports = function(grunt){
 	var options = {
 		options: {
-			force: true
+			force: true,
 		},
 		all: {
-			success: function() {
+			success: function(){
 				grunt.task.run('notify:success');
 			},
-			fail: function() {
-				grunt.task.run('notify:failed');
+			fail: function(){
+				grunt.task.run('notify:failure');
 			}
 		}
 	};

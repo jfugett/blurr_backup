@@ -4,7 +4,7 @@
   "description": "Build applications so fast everybody else will see a blurr",
   "main": "app/server.js",
   "scripts": {
-    "test": "grunt test"
+    "test": "grunt --force test"
   },
   "repository": {
     "type": "git",
@@ -28,7 +28,7 @@
     "grunt-contrib-jshint": "^0.8.0",
     "grunt-contrib-watch": "^0.5.3",
     "grunt-notify": "^0.2.18",
-    "grunt-passfail": "^0.1.2"
+    "grunt-passfail": "~0.1.2"
   },
   "dependencies": {
     "async": "^0.2.10",

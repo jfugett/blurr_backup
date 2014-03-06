@@ -8,11 +8,10 @@ module.exports = {
 		src: ['Gruntfile.js', 'grunt_config/*.js']
 	},
 	'app': {
-        options: {
-            jshintrc: '.jshintrc'
-        },
-        src: ['/app/**/*.js']
-
+		options: {
+			jshintrc: '.jshintrc'
+		},
+		src: ['app/**/*.js']
 	},
 	'client': {
 		options: {

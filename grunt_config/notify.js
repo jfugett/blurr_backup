@@ -1,16 +1,22 @@
 'use strict';
 
 module.exports = {
-	jshint: {
+	test: {
 		options: {
-			title: 'JSHint Finished',
-			message: 'JSHint has finished checking your javascript files'
+			title: 'Tests Complete',
+			message: 'Finished Running Tests',
 		}
 	},
-	success: {
+	build: {
 		options: {
-			title: 'Woot',
-			message: 'Completed Successfully',
+			title: 'Build Complete',
+			message: 'Finished Creating Build',
+		}
+	},
+	deploy: {
+		options: {
+			title: 'Deploy Complete',
+			message: 'Finished Deploying Build',
 		}
 	},
 	failure: {

@@ -16,15 +16,7 @@ module.exports = function gruntConfig(grunt){
 	// load grunt configuration automatically
 	var configs = require('load-grunt-configs')(grunt, options);
 
-	// add default options for notify for errors
-	configs.notify_hooks = {
-		options: {
-			enabled: true,
-			max_jshint_notifications: 5,
-			title: 'Blurr'
-		}
-    };
-
+	
 	// initialize the grunt config
 	grunt.initConfig(configs);
 
@@ -38,5 +30,12 @@ module.exports = function gruntConfig(grunt){
 		grunt.task.run('jshint');
 
 		grunt.task.run('notify:jshint');
+
+		grunt.task.run('passfail:all');
 	});
+
+	//grunt.registerTask('passfail', 'Internal Only', function(){
+	//	console.log(grunt.fail.errorcount);
+	//	console.log(grunt.fail.warncount);
+	//});
 };

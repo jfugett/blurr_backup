@@ -16,13 +16,15 @@ module.exports = function gruntConfig(grunt){
 	// load grunt configuration automatically
 	var configs = require('load-grunt-configs')(grunt, options);
 
-	
+
 	// initialize the grunt config
 	grunt.initConfig(configs);
 
 	// default task to be run for development
 	grunt.registerTask('default', 'Development Environment', function(){
-		console.log('we made it here');
+		grunt.task.run('test');
+
+		grunt.task.run('watch');
 	});
 
 	// runs only the tests disregarding building, deploying, starting the server, etc..
@@ -33,9 +35,4 @@ module.exports = function gruntConfig(grunt){
 
 		grunt.task.run('passfail:all');
 	});
-
-	//grunt.registerTask('passfail', 'Internal Only', function(){
-	//	console.log(grunt.fail.errorcount);
-	//	console.log(grunt.fail.warncount);
-	//});
 };

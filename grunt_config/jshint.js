@@ -1,11 +1,11 @@
 'use strict';
-// Make sure code styles are up to par and there are no obvious mistakes
+
 module.exports = {
-	'gruntFile': {
+	'main': {
 		options: {
 			jshintrc: '.jshintrc'
 		},
-		src: ['Gruntfile.js', 'grunt_config/*.js']
+		src: ['*.js', 'grunt_config/*.js']
 	},
 	'app': {
 		options: {

@@ -25,11 +25,12 @@
 	"esnext": true,
 	"node": true,
 	"gcl": true,
-	"globals": [
-		"grunt",
-		"it",
-		"describe"
-	],
+	"globals": {
+		"expect": true,
+		"grunt": true,
+		"it": true,
+		"describe": true
+	},
 	"globalstrict": true,
 	"sub": true,
 	"browser": true,

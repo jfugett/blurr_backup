@@ -25,6 +25,22 @@ var paths = {
     ]
 };
 
+var reporterFunction = function reporterFunction(notificationOptions, callback){
+	growlerApp.register(function(success, err){
+		if(!success || err){
+			return callback(null, success);
+		}
+
+		// Rename 'message' property to 'text'
+		notificationOptions.text = notificationOptions.message;
+		delete notificationOptions.message;
+
+		growlerApp.sendNotification('Blurr', notificationOptions, function(success, err) {
+			return callback(err, success);
+		});
+	});
+};
+
 var errorHandler = function errorHandler(error){
     console.log(error.message);
     var options = {
@@ -43,29 +59,13 @@ growlerApp.setNotifications({
 	Blurr: {}
 });
 
-var reporterFunction = function reporterFunction(notificationOptions, callback){
-	growlerApp.register(function(success, err){
-		if(!success || err){
-			return callback(null, success);
-		}
-
-		// Rename 'message' property to 'text'
-		notificationOptions.text = notificationOptions.message;
-		delete notificationOptions.message;
-
-		growlerApp.sendNotification('Blurr', notificationOptions, function(success, err) {
-			return callback(err, success);
-		});
-	});
-};
-
 var growlerNotification = notify.withReporter(reporterFunction);
 
 gulp.task('default', ['watchLint', 'line-count']);
 
 gulp.task('test', ['lint', 'line-count']);
 
-gulp.task('build', ['test'], ['generateTodos']);
+gulp.task('build', ['test', 'generateTodos']);
 
 gulp.task('deploy', ['build', 'bumpVersion']);
 

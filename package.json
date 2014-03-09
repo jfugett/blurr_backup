@@ -33,7 +33,10 @@
     "growler": "0.0.1",
     "stream-combiner": "0.0.4",
     "gulp-sloc": "^1.0.3",
-    "gulp-watch": "^0.5.2"
+    "gulp-watch": "^0.5.2",
+    "gulp-mversion": "^0.1.0",
+    "grunt-prompt": "^1.0.0",
+    "gulp-prompt": "^0.1.0"
   },
   "dependencies": {
     "async": "^0.2.10",

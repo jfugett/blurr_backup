@@ -9,6 +9,7 @@ var growler = require('growler');
 var combine = require('stream-combiner');
 var notify = require('gulp-notify');
 var sloc = require('gulp-sloc');
+var prompter = require('gulp-prompt');
 
 var paths = {
 	'scripts': ['*.js', 'app/**/*.js', 'client/**/*.js', 'workers/**/*.js', 'tests/**/*.js'],
@@ -51,6 +52,10 @@ var growlerNotification = notify.withReporter(reporterFunction);
 gulp.task('default', ['watchLint', 'line-count']);
 
 gulp.task('test', ['lint', 'line-count']);
+
+gulp.task('build', ['test']);
+
+gulp.task('deploy', ['build', 'bumpVersion']);
 
 gulp.task('line-count', function(){
     gulp.src(paths.allFiles)
@@ -129,4 +134,43 @@ gulp.task('watchLint', function(){
         
         reporterFunction(options, function(){return true;});
     });
+});
+
+gulp.task('bumpVersion', function(){
+    var combined = combine(
+        gulp.src(['*.js']),
+        growlerNotification({
+            title: 'Your Input is Needed',
+            message: 'We need you\'re input on what type of build this is'
+        }),
+        prompter.prompt({
+            type: 'list',
+            name: 'bump',
+            message: 'What type of build is this?',
+            choices: ['dev', 'patch', 'minor', 'major', 'alpha', 'beta', 'prod']
+        }, function(res){
+            console.log(res);
+        }),
+        jshint()
+    );
+    
+    combined.on('error', function(error){
+        console.log(error.message);
+        var options = {
+            title: 'UH OH!',
+            message: 'Error' + error.message
+        };
+        
+        reporterFunction(options, function(){return true;});
+    });
+    // .pipe(prompter.prompt({
+    //         type: 'list',
+    //         name: 'bump',
+    //         message: 'What type of bump would you like to do?',
+    //         choices: ['patch', 'minor', 'major', 'alpha', 'beta']
+    //     }, function(res){
+    //         console.log(res);
+            
+    //         return true;
+    // }));
 });

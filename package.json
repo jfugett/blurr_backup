@@ -35,8 +35,9 @@
     "gulp-jshint": "^1.5.0",
     "map-stream": "^0.1.0",
     "jshint-stylish": "^0.1.5",
-    "through2": "^0.4.1",
-    "gulp-notify": "^1.1.0"
+    "gulp-notify": "^1.1.0",
+    "growler": "0.0.1",
+    "stream-combiner": "0.0.4"
   },
   "dependencies": {
     "async": "^0.2.10",

@@ -1,34 +1,59 @@
 'use strict';
 
+var fs = require('fs');
 var gulp = require('gulp');
 var jshint = require('gulp-jshint');
 //var map = require('map-stream');
 var stylish = require('jshint-stylish');
-//var notify = require('gulp-notify');
+var notify = require('gulp-notify');
+var growler = require('growler');
+var combine = require('stream-combiner');
 
 var paths = {
 	'scripts': ['*.js', 'app/**/*.js', 'client/**/*.js', 'workers/**/*.js', 'tests/**/*.js']
 };
+
+var growlerApp = new growler.GrowlApplication('blurr', {
+	icon: fs.readFileSync('gulp.png')
+});
+
+growlerApp.setNotifications({
+	Blurr: {}
+});
+
+var growlerNotification = notify.withReporter(function(notificationOptions, callback){
+	growlerApp.register(function(success, err){
+		if(!success){
+			return callback(err);
+		}
+
+		// Rename 'message' property to 'text'
+		notificationOptions.text = notificationOptions.message;
+		delete notificationOptions.message;
+
+		growlerApp.sendNotification('Blurr', notificationOptions, function(success, err) {
+			return callback(err, success);
+		});
+	});
+});
 
 gulp.task('default', ['test']);
 
 gulp.task('test', ['lint']);
 
 gulp.task('lint', function(){
-	gulp.src(paths.scripts)
-		.pipe(jshint())
-		.pipe(jshint.reporter(stylish));
-/*		.pipe(map(function (file, cb) {
-
-			if(!file.jshint.success){
-				cb('JSHint Failed', file);
-				return;
-			}
-
-			cb(null, file);
-		}))
-		.on('error', function(err){
-			console.log(err);
+	var combined = combine(
+		gulp.src(paths.scripts),
+		jshint(),
+		jshint.reporter(stylish),
+		jshint.reporter('fail'),
+		growlerNotification({
+			onLast: true,
+			title: 'JSHint Finished',
+			message: 'JSHint has finished linting your files'
 		})
-		.on('error', notify.onError('Error: <%= error %>'));*/
+	);
+
+	combined.on('error', growlerNotification.onError('Error: <%= error.message %>'));
+
 });

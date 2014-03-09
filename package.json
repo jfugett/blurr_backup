@@ -32,7 +32,8 @@
     "gulp-watch": "^0.5.2",
     "gulp-mversion": "^0.1.0",
     "grunt-prompt": "^1.0.0",
-    "gulp-prompt": "^0.1.0"
+    "gulp-prompt": "^0.1.0",
+    "gulp-todo": "^0.1.5"
   },
   "dependencies": {
     "async": "^0.2.10",

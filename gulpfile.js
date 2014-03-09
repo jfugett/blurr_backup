@@ -12,6 +12,7 @@ var sloc = require('gulp-sloc');
 var prompter = require('gulp-prompt');
 var mversion = require('gulp-mversion');
 var todos = require('gulp-todo');
+var changelog = require('gulp-conventional-changelog');
 
 var paths = {
 	'scripts': ['*.js', 'app/**/*.js', 'client/**/*.js', 'workers/**/*.js', 'tests/**/*.js'],
@@ -24,6 +25,14 @@ var paths = {
         'tests/**/*.js'
     ]
 };
+
+var growlerApp = new growler.GrowlApplication('blurr', {
+	icon: fs.readFileSync('gulp.png')
+});
+
+growlerApp.setNotifications({
+	Blurr: {}
+});
 
 var reporterFunction = function reporterFunction(notificationOptions, callback){
 	growlerApp.register(function(success, err){
@@ -43,21 +52,16 @@ var reporterFunction = function reporterFunction(notificationOptions, callback){
 
 var errorHandler = function errorHandler(error){
     console.log(error.message);
+
     var options = {
         title: 'UH OH!',
         message: 'Error' + error.message
     };
     
-    reporterFunction(options, function(){return true;});
+    reporterFunction(options, function(){
+        return true;
+    });
 };
-
-var growlerApp = new growler.GrowlApplication('blurr', {
-	icon: fs.readFileSync('gulp.png')
-});
-
-growlerApp.setNotifications({
-	Blurr: {}
-});
 
 var growlerNotification = notify.withReporter(reporterFunction);
 
@@ -65,22 +69,26 @@ gulp.task('default', ['watchLint', 'line-count']);
 
 gulp.task('test', ['lint', 'line-count']);
 
-gulp.task('build', ['test', 'generateTodos']);
+gulp.task('build', ['test', 'bumpVersion', 'generateTodos', 'generateChangeLog']);
 
-gulp.task('deploy', ['build', 'bumpVersion']);
+gulp.task('deploy', ['build']);
 
 gulp.task('line-count', function(){
-    gulp.src(paths.allFiles)
-        .pipe(sloc({
+    var combined = combine(
+        gulp.src(paths.allFiles),
+        sloc({
             tolerant: true,
             reportType: 'json',
-            reportFile: 'lineCount.json',
-        }))
-        .pipe(gulp.dest('./test_results/'));
-    gulp.src(paths.allFiles)
-        .pipe(sloc({
-            tolerant: true,
-        }));
+            reportFile: 'lineCount.json'
+        }),
+        sloc({
+            tolerant: true
+        })
+    );
+    
+    combined.on('error', errorHandler);
+
+    return combined;
 });
 
 gulp.task('lint', function(){
@@ -97,6 +105,8 @@ gulp.task('lint', function(){
 	);
 
 	combined.on('error', errorHandler);
+	
+	return combined;
 });
 
 gulp.task('watchLint', function(){
@@ -120,9 +130,15 @@ gulp.task('watchLint', function(){
     );
     
     combined.on('error', errorHandler);
+    
+    return combined;
 });
 
 gulp.task('watchTodos', function(){
+    // @todo: Implement
+});
+
+gulp.task('watchChangeLog', function(){
     // @todo: Implement
 });
 
@@ -156,18 +172,40 @@ gulp.task('bumpVersion', function(){
     );
     
     combined.on('error', errorHandler);
+    
+    return combined;
 });
 
 // @todo: Break generate Todos into separate reports for each major code section
-gulp.task('generateTodos', function(){
+gulp.task('generateTodos', ['bumpVersion'], function(){
     var combined = combine(
         gulp.src(paths.scripts),
         todos({
             newLine: '\n',
             fileName: 'todo.md'
         }),
-        gulp.dest('./build_logs')
+        gulp.dest('./')
     );
     
     combined.on('error', errorHandler);
+    
+    return combined;
+});
+
+gulp.task('generateChangeLog', ['bumpVersion'], function(){
+    var version = require('./package.json').version;
+    
+    var combined = combine(
+        gulp.src(['package.json', 'changelog.md']),
+        changelog({
+            version: version,
+            file: 'changelog.md',
+            repository: 'https://github.com/jfugett/blurr'
+        }),
+        gulp.dest('./')
+    );
+    
+    combined.on('error', errorHandler);
+    
+    return combined;
 });

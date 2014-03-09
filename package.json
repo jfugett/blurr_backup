@@ -4,7 +4,7 @@
   "description": "Build applications so fast everybody else will see a blurr",
   "main": "app/server.js",
   "scripts": {
-    "test": "grunt --force test"
+    "test": "gulp test"
   },
   "repository": {
     "type": "git",
@@ -25,11 +25,6 @@
     "load-grunt-tasks": "^0.4.0",
     "load-grunt-configs": "^0.3.2",
     "time-grunt": "^0.2.10",
-    "grunt-contrib-jshint": "^0.8.0",
-    "grunt-contrib-watch": "^0.5.3",
-    "grunt-passfail": "~0.1.2",
-    "grunt-newer": "^0.6.1",
-    "grunt-dev-update": "^0.4.7",
     "gulp": "^3.5.5",
     "gulp-jshint": "^1.5.0",
     "map-stream": "^0.1.0",
@@ -37,7 +32,8 @@
     "gulp-notify": "^1.1.0",
     "growler": "0.0.1",
     "stream-combiner": "0.0.4",
-    "gulp-grunt": "^0.4.1"
+    "gulp-sloc": "^1.0.3",
+    "gulp-watch": "^0.5.2"
   },
   "dependencies": {
     "async": "^0.2.10",

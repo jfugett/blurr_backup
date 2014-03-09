@@ -9,6 +9,11 @@ var notify = require('gulp-notify');
 var growler = require('growler');
 var combine = require('stream-combiner');
 
+//var gulp_grunt = require('gulp-grunt');
+//var tasks = gulp_grunt.tasks();
+
+//console.log(tasks);
+
 var paths = {
 	'scripts': ['*.js', 'app/**/*.js', 'client/**/*.js', 'workers/**/*.js', 'tests/**/*.js']
 };
@@ -23,8 +28,8 @@ growlerApp.setNotifications({
 
 var growlerNotification = notify.withReporter(function(notificationOptions, callback){
 	growlerApp.register(function(success, err){
-		if(!success){
-			return callback(err);
+		if(!success || err){
+			return callback(null, success);
 		}
 
 		// Rename 'message' property to 'text'
@@ -54,6 +59,8 @@ gulp.task('lint', function(){
 		})
 	);
 
-	combined.on('error', growlerNotification.onError('Error: <%= error.message %>'));
-
+	combined.on('error', function(error){
+		console.log(error);
+		growlerNotification.onError('Error: <%= error.message %>');
+	});
 });

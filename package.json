@@ -27,7 +27,6 @@
     "time-grunt": "^0.2.10",
     "grunt-contrib-jshint": "^0.8.0",
     "grunt-contrib-watch": "^0.5.3",
-    "grunt-notify": "^0.2.18",
     "grunt-passfail": "~0.1.2",
     "grunt-newer": "^0.6.1",
     "grunt-dev-update": "^0.4.7",
@@ -37,7 +36,8 @@
     "jshint-stylish": "^0.1.5",
     "gulp-notify": "^1.1.0",
     "growler": "0.0.1",
-    "stream-combiner": "0.0.4"
+    "stream-combiner": "0.0.4",
+    "gulp-grunt": "^0.4.1"
   },
   "dependencies": {
     "async": "^0.2.10",

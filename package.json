@@ -21,10 +21,6 @@
   "homepage": "https://github.com/jfugett/blurr",
   "private": true,
   "devDependencies": {
-    "grunt": "^0.4.3",
-    "load-grunt-tasks": "^0.4.0",
-    "load-grunt-configs": "^0.3.2",
-    "time-grunt": "^0.2.10",
     "gulp": "^3.5.5",
     "gulp-jshint": "^1.5.0",
     "map-stream": "^0.1.0",

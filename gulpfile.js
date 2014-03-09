@@ -10,6 +10,8 @@ var combine = require('stream-combiner');
 var notify = require('gulp-notify');
 var sloc = require('gulp-sloc');
 var prompter = require('gulp-prompt');
+var mversion = require('gulp-mversion');
+var map = require('map-stream');
 
 var paths = {
 	'scripts': ['*.js', 'app/**/*.js', 'client/**/*.js', 'workers/**/*.js', 'tests/**/*.js'],
@@ -149,7 +151,18 @@ gulp.task('bumpVersion', function(){
             message: 'What type of build is this?',
             choices: ['dev', 'patch', 'minor', 'major', 'alpha', 'beta', 'prod']
         }, function(res){
-            console.log(res);
+            if(res.bump === 'dev'){
+                return true;
+            }
+            if(res.bump === 'alpha' || res.bump === 'beta' || res.bump === 'prod'){
+                var packageJson = require('./package.json');
+                var version = packageJson.version.split('-');
+                
+                res.bump = version[0] + '-' + res.bump;
+            }
+            gulp.src(['package.json'])
+            .pipe(mversion(res.bump))
+            .pipe(gulp.dest('./'));
         }),
         jshint()
     );
@@ -163,14 +176,4 @@ gulp.task('bumpVersion', function(){
         
         reporterFunction(options, function(){return true;});
     });
-    // .pipe(prompter.prompt({
-    //         type: 'list',
-    //         name: 'bump',
-    //         message: 'What type of bump would you like to do?',
-    //         choices: ['patch', 'minor', 'major', 'alpha', 'beta']
-    //     }, function(res){
-    //         console.log(res);
-            
-    //         return true;
-    // }));
 });

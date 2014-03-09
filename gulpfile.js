@@ -30,7 +30,7 @@ growlerApp.setNotifications({
 	Blurr: {}
 });
 
-var growlerNotification = notify.withReporter(function(notificationOptions, callback){
+var reporterFunction = function reporterFunction(notificationOptions, callback){
 	growlerApp.register(function(success, err){
 		if(!success || err){
 			return callback(null, success);
@@ -44,7 +44,9 @@ var growlerNotification = notify.withReporter(function(notificationOptions, call
 			return callback(err, success);
 		});
 	});
-});
+};
+
+var growlerNotification = notify.withReporter(reporterFunction);
 
 gulp.task('default', ['watchLint', 'line-count']);
 
@@ -78,16 +80,21 @@ gulp.task('lint', function(){
 	);
 
 	combined.on('error', function(error){
-		console.log(error);
-		growlerNotification.onError('Error: <%= error.message %>');
-	});
+        console.log(error.message);
+        var options = {
+            title: 'UH OH!',
+            message: 'Error' + error.message
+        };
+        
+        reporterFunction(options, function(){return true;});
+    });
 });
 
 gulp.task('watchLint', function(){
     var combined = combine(
         gulp.src(paths.scripts),
         watch(function(files){
-            var combined_two = combine(
+            var combinedTwo = combine(
                 files,
                 jshint(),
                 jshint.reporter(stylish),
@@ -99,17 +106,27 @@ gulp.task('watchLint', function(){
                 })
             );
             
-            combined_two.on('error', function(error){
-                console.log(error);
-                growlerNotification.onError('Error: <%= error.message %>');
+            combinedTwo.on('error', function(error){
+                console.log(error.message);
+                var options = {
+                    title: 'UH OH!',
+                    message: 'Error' + error.message
+                };
+                
+                reporterFunction(options, function(){return true;});
             });
             
-            return combined_two;
+//            return combinedTwo;
         })
     );
     
     combined.on('error', function(error){
-        console.log(error);
-        growlerNotification.onError('Error: <%= error.message %>');
+        console.log(error.message);
+        var options = {
+            title: 'UH OH!',
+            message: 'Error' + error.message
+        };
+        
+        reporterFunction(options, function(){return true;});
     });
 });

@@ -11,7 +11,7 @@ var notify = require('gulp-notify');
 var sloc = require('gulp-sloc');
 var prompter = require('gulp-prompt');
 var mversion = require('gulp-mversion');
-var map = require('map-stream');
+var todos = require('gulp-todo');
 
 var paths = {
 	'scripts': ['*.js', 'app/**/*.js', 'client/**/*.js', 'workers/**/*.js', 'tests/**/*.js'],
@@ -23,6 +23,16 @@ var paths = {
         'workers/**/*.js',
         'tests/**/*.js'
     ]
+};
+
+var errorHandler = function errorHandler(error){
+    console.log(error.message);
+    var options = {
+        title: 'UH OH!',
+        message: 'Error' + error.message
+    };
+    
+    reporterFunction(options, function(){return true;});
 };
 
 var growlerApp = new growler.GrowlApplication('blurr', {
@@ -55,7 +65,7 @@ gulp.task('default', ['watchLint', 'line-count']);
 
 gulp.task('test', ['lint', 'line-count']);
 
-gulp.task('build', ['test']);
+gulp.task('build', ['test'], ['generateTodos']);
 
 gulp.task('deploy', ['build', 'bumpVersion']);
 
@@ -86,15 +96,7 @@ gulp.task('lint', function(){
 		})
 	);
 
-	combined.on('error', function(error){
-        console.log(error.message);
-        var options = {
-            title: 'UH OH!',
-            message: 'Error' + error.message
-        };
-        
-        reporterFunction(options, function(){return true;});
-    });
+	combined.on('error', errorHandler);
 });
 
 gulp.task('watchLint', function(){
@@ -113,29 +115,15 @@ gulp.task('watchLint', function(){
                 })
             );
             
-            combinedTwo.on('error', function(error){
-                console.log(error.message);
-                var options = {
-                    title: 'UH OH!',
-                    message: 'Error' + error.message
-                };
-                
-                reporterFunction(options, function(){return true;});
-            });
-            
-//            return combinedTwo;
+            combinedTwo.on('error', errorHandler);
         })
     );
     
-    combined.on('error', function(error){
-        console.log(error.message);
-        var options = {
-            title: 'UH OH!',
-            message: 'Error' + error.message
-        };
-        
-        reporterFunction(options, function(){return true;});
-    });
+    combined.on('error', errorHandler);
+});
+
+gulp.task('watchTodos', function(){
+    // @todo: Implement
 });
 
 gulp.task('bumpVersion', function(){
@@ -167,13 +155,19 @@ gulp.task('bumpVersion', function(){
         jshint()
     );
     
-    combined.on('error', function(error){
-        console.log(error.message);
-        var options = {
-            title: 'UH OH!',
-            message: 'Error' + error.message
-        };
-        
-        reporterFunction(options, function(){return true;});
-    });
+    combined.on('error', errorHandler);
+});
+
+// @todo: Break generate Todos into separate reports for each major code section
+gulp.task('generateTodos', function(){
+    var combined = combine(
+        gulp.src(paths.scripts),
+        todos({
+            newLine: '\n',
+            fileName: 'todo.md'
+        }),
+        gulp.dest('./build_logs')
+    );
+    
+    combined.on('error', errorHandler);
 });

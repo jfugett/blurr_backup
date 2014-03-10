@@ -14,3 +14,5 @@ var generateChangeLog = function generateChangeLog(){
         fs.writeFileSync('CHANGELOG.md', log);
     });
 };
+
+module.exports = generateChangeLog;

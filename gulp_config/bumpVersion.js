@@ -1,42 +1,30 @@
 'use strict';
 
-var prompter = require('gulp-prompt');
 var mversion = require('gulp-mversion');
-var combine = require('stream-combiner');
+var args = require('yargs').default({type: 'dev'}).argv;
 
 var bumpVersionGenerator = function bumpVersionGenerator(gulp, errorHandler, notifyHandler){
     var bumpVersion = function bumpVersion(){
-        notifyHandler('Your Input is Needed', 'We need to know what type of build this is');
 
-        var combined = combine(
-            gulp.src(['package.json']),
-            prompter.prompt({
-                type: 'list',
-                name: 'bump',
-                message: 'What type of build is this?',
-                choices: ['dev', 'patch', 'minor', 'major', 'alpha', 'beta', 'prod']
-            }, function(res){
-                if(res.bump === 'dev'){
-                    return true;
-                }
-                
-                if(res.bump === 'alpha' || res.bump === 'beta' || res.bump === 'prod'){
-                    delete require.cache[require.resolve('./package.json')];
-                    var packageJson = require('./package.json');
-                    var version = packageJson.version.split('-');
-                    
-                    res.bump = version[0] + '-' + res.bump;
-                }
-                
-                gulp.src('package.json')
-                    .pipe(mversion(res.bump))
-                    .pipe(gulp.dest('./'));
-            })
-        );
+        var type = args.type;
+        type = type.toLocaleLowerCase();
         
-        combined.on('error', errorHandler);
+        if(type === 'dev'){
+            notifyHandler('Dev Build', 'Since this is a dev build we won\'t be bump the version');
+            return true;
+        }
         
-//        return combined;
+        if(type === 'alpha' || type === 'beta' || type === 'prod'){
+            delete require.cache[require.resolve('./package.json')];
+            var packageJson = require('./package.json');
+            var version = packageJson.version.split('-');
+            
+            type = version[0] + '-' + type;
+        }
+        
+        gulp.src('package.json')
+            .pipe(mversion(type))
+            .pipe(gulp.dest('./'));
     };
     
     return bumpVersion;

@@ -39,7 +39,8 @@
     "run-sequence": "^0.3.6",
     "gulp-plato": "^0.2.1",
     "gulp-open": "^0.2.8",
-    "gulp-exec": "^1.0.4"
+    "gulp-exec": "^1.0.4",
+    "yargs": "^1.2.1"
   },
   "dependencies": {
     "async": "^0.2.10",

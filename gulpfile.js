@@ -9,13 +9,18 @@ var errorHandler = require('./gulp_config/errorHandler')(reporterFunction);
 var notifyHandler = require('./gulp_config/notifyHandler')(reporterFunction);
 var growlerNotification = notify.withReporter(reporterFunction);
 var gulpOpen = require('gulp-open');
+var args = require('yargs').default({type: 'dev'}).argv;
 
 gulp.task('default', function(){
     notifyHandler('Gulp Started', 'Sit back, relax, and let us handle it for you :)');
     
+    // @todo code complexity, lines of code, generate todos, generate changelog
     runSequence(
-        'test',
-        'watchJsHint'
+        'watchTest',
+        'watchBuild',
+        function(){
+            console.log(args);
+        }
     );
 });
 
@@ -91,9 +96,9 @@ gulp.task('complexityReport', function complexityReport(){
         'openComplexityReport'
     );
 });
+
 /*
 * @todo
-* default[rebuild, retest]
 *
 * code coverage - default, test
 * code coverage enforcement - default, test
@@ -117,21 +122,17 @@ gulp.task('complexityReport', function complexityReport(){
 * Integrated Browser testing (sauce labs) - test
 * CDN support - build/deploy (not sure which)
 * Browserify on shared files - default, build
-* pre-compress static assets - build/deploy - not sure which
 * cache busting - default, build
 * angular template precompilation and concatenation - default, build
 * ngmin - build/deploy (not sure which)
 * phantom, casper, slimer, and zombie.js support - test
 * css concatenation - default, build
 * js concatenation - default, build
-* compression - build/deploy (not sure which)
 * json strip comments - build
-* js compression - build/deploy (not sure which)
 * code documentation generator - default, build
 * static site generation - for SEO - deploy
 * !18n file pre-compilation - default, build
 * !18n caching - build/deploy (may be better to make this one happen through the CDN)
 * Automatic setup/installation script - deploy
 * Automated release tool - deploy
-* 
 */

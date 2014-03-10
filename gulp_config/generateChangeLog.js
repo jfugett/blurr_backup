@@ -6,14 +6,12 @@ var combine = require('stream-combiner');
 var generator = function generator(gulp, errorHandler){
 
     var generateChangeLog = function generateChangeLog(){
-        var packageJson = require('../package.json');
-        
         var combined = combine(
             gulp.src('package.json'),
-            gulpExec('lorax ' + packageJson.version + ' CHANGELOG.md')
+            gulpExec('changelogger -d "./changelog/" -f html ./')
         );
         
-        combined.on('error', errorHandler)
+        combined.on('error', errorHandler);
     };
 
     return generateChangeLog;

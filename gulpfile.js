@@ -8,7 +8,7 @@ var reporterFunction = require('./gulp_config/reporterFunction')(growlerApp);
 var errorHandler = require('./gulp_config/errorHandler')(reporterFunction);
 var notifyHandler = require('./gulp_config/notifyHandler')(reporterFunction);
 var growlerNotification = notify.withReporter(reporterFunction);
-var opener = require('gulp-open');
+var gulpOpen = require('gulp-open');
 
 gulp.task('default', function(){
     notifyHandler('Gulp Started', 'Sit back, relax, and let us handle it for you :)');
@@ -25,6 +25,7 @@ gulp.task('test', function(){
     runSequence(
         'jsHint',
         'lineCounter',
+        'complexityReport',
         function(){
             notifyHandler('Finished Running Tests', 'The tests have now completed running');
         }
@@ -70,7 +71,7 @@ gulp.task('bumpVersion', bumpVersion);
 var generateTodos = require('./gulp_config/generateTodos')(gulp, errorHandler);
 gulp.task('generateTodos', generateTodos);
 
-var generateChangeLog = require('./gulp_config/generateChangeLog');
+var generateChangeLog = require('./gulp_config/generateChangeLog')(gulp, errorHandler);
 gulp.task('generateChangeLog', generateChangeLog);
 
 var watchJsHint = require('./gulp_config/watchJsHint')(gulp, errorHandler, growlerNotification);
@@ -81,7 +82,7 @@ gulp.task('generateComplexityReport', generateComplexityReport);
 
 gulp.task('openComplexityReport', function openComplexityReport(){
     gulp.src('./test_results/complexity_report/index.html')
-        .pipe(opener("<%file.path%>",{app:"google-chrome"}));
+        .pipe(gulpOpen('<%file.path%>',{app:'google-chrome'}));
 });
 
 gulp.task('complexityReport', function complexityReport(){

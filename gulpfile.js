@@ -1,11 +1,8 @@
 'use strict';
 
-// @todo - reimplement file watches
-
 var gulp = require('gulp');
 var runSequence = require('run-sequence');
 var notify = require('gulp-notify');
-//var watch = require('gulp-watch');
 var growlerApp = require('./gulp_config/growlerApp');
 var reporterFunction = require('./gulp_config/reporterFunction')(growlerApp);
 var errorHandler = require('./gulp_config/errorHandler')(reporterFunction);
@@ -13,13 +10,11 @@ var notifyHandler = require('./gulp_config/notifyHandler')(reporterFunction);
 var growlerNotification = notify.withReporter(reporterFunction);
 
 gulp.task('default', function(){
-    notifyHandler('Starting Development Tasks', 'Sit back, relax, and let us handle it for you :)');
+    notifyHandler('Gulp Started', 'Sit back, relax, and let us handle it for you :)');
     
     runSequence(
         'test',
-        function(){
-            return true;
-        }
+        'watchJsHint'
     );
 });
 
@@ -77,13 +72,13 @@ gulp.task('generateTodos', generateTodos);
 var generateChangeLog = require('./gulp_config/generateChangeLog');
 gulp.task('generateChangeLog', generateChangeLog);
 
+var watchJsHint = require('./gulp_config/watchJsHint')(gulp, errorHandler, growlerNotification);
+gulp.task('watchJsHint', watchJsHint);
+
 /*
 * @todo
 * default[rebuild, retest]
 *
-* watching of files - default
-* todo generation - build, default
-* changelog generation - build
 * code coverage - default, test
 * code coverage enforcement - default, test
 * unit testing for node - default, test

@@ -9,8 +9,7 @@ var stylish = require('jshint-stylish');
 var generator = function generator(gulp, errorHandler, growlerNotification){
     var watchJsHint = function watchJsHint(){
         var combined = combine(
-            gulp.src(paths.scripts),
-            watch(function jsHintWatcher(files){
+            watch({glob: paths.scripts}, function jsHintWatcher(files){
                 var combinedTwo = combine(
                     files,
                     jshint(),

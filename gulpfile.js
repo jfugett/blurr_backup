@@ -75,6 +75,9 @@ gulp.task('generateChangeLog', generateChangeLog);
 var watchJsHint = require('./gulp_config/watchJsHint')(gulp, errorHandler, growlerNotification);
 gulp.task('watchJsHint', watchJsHint);
 
+var generateComplexityReport = require('./gulp_config/plato')(gulp, errorHandler);
+gulp.task('generateComplexityReport', generateComplexityReport);
+
 /*
 * @todo
 * default[rebuild, retest]

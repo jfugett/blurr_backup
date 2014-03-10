@@ -28,7 +28,7 @@ var bumpVersionGenerator = function bumpVersionGenerator(gulp, errorHandler, not
                     res.bump = version[0] + '-' + res.bump;
                 }
                 
-                gulp.src(['package.json'])
+                gulp.src('package.json')
                     .pipe(mversion(res.bump))
                     .pipe(gulp.dest('./'));
             })
@@ -36,7 +36,7 @@ var bumpVersionGenerator = function bumpVersionGenerator(gulp, errorHandler, not
         
         combined.on('error', errorHandler);
         
-        return combined;
+//        return combined;
     };
     
     return bumpVersion;

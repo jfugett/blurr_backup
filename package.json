@@ -1,6 +1,6 @@
 {
   "name": "Blurr",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Build applications so fast everybody else will see a blurr",
   "main": "app/server.js",
   "scripts": {

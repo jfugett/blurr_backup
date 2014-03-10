@@ -1,3 +1,12 @@
+<a name="0.0.4"></a>
+### 0.0.4 (2014-03-10)
+
+
+#### Bug Fixes
+
+* **bumpVersion:** Fixed issue with bump version ([c767f65f](https://github.com/jfugett/blurr/commit/c767f65f4f9eadca8624a4bc7b5246d1ce80237b))
+
+
 <a name="0.0.2"></a>
 ### 0.0.2 (2014-03-10)
 

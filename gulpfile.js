@@ -86,8 +86,8 @@ var generateComplexityReport = require('./gulp_config/plato')(gulp, errorHandler
 gulp.task('generateComplexityReport', generateComplexityReport);
 
 gulp.task('openComplexityReport', function openComplexityReport(){
-    gulp.src('./test_results/complexity_report/index.html')
-        .pipe(gulpOpen('<%file.path%>',{app:'google-chrome'}));
+    return gulp.src('./test_results/complexity_report/index.html')
+        .pipe(gulpOpen('file://<%= file.path %>',{app:'chrome'}));
 });
 
 gulp.task('complexityReport', function complexityReport(){

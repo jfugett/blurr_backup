@@ -1,18 +1,22 @@
 'use strict';
 
-var fs = require('fs');
-var changelog = require('conventional-changelog');
+var gulpExec = require('gulp-exec');
+var combine = require('stream-combiner');
 
-var generateChangeLog = function generateChangeLog(){
-    var packageJson = require('../package.json');
-    
-    changelog({
-        repository: 'https://github.com/jfugett/blurr',
-        version: packageJson.version,
-        file: 'CHANGELOG.md',
-    }, function(err, log){
-        fs.writeFileSync('CHANGELOG.md', log);
-    });
+var generator = function generator(gulp, errorHandler){
+
+    var generateChangeLog = function generateChangeLog(){
+        var packageJson = require('../package.json');
+        
+        var combined = combine(
+            gulp.src('package.json'),
+            gulpExec('lorax ' + packageJson.version + ' CHANGELOG.md')
+        );
+        
+        combined.on('error', errorHandler)
+    };
+
+    return generateChangeLog;
 };
 
-module.exports = generateChangeLog;
+module.exports = generator;

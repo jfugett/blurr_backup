@@ -37,7 +37,9 @@
     "conventional-changelog": "0.0.6",
     "gulp-util": "^2.2.14",
     "run-sequence": "^0.3.6",
-    "gulp-plato": "^0.2.1"
+    "gulp-plato": "^0.2.1",
+    "gulp-open": "^0.2.8",
+    "gulp-exec": "^1.0.4"
   },
   "dependencies": {
     "async": "^0.2.10",

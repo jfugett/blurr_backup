@@ -8,6 +8,7 @@ var reporterFunction = require('./gulp_config/reporterFunction')(growlerApp);
 var errorHandler = require('./gulp_config/errorHandler')(reporterFunction);
 var notifyHandler = require('./gulp_config/notifyHandler')(reporterFunction);
 var growlerNotification = notify.withReporter(reporterFunction);
+var opener = require('gulp-open');
 
 gulp.task('default', function(){
     notifyHandler('Gulp Started', 'Sit back, relax, and let us handle it for you :)');
@@ -78,6 +79,17 @@ gulp.task('watchJsHint', watchJsHint);
 var generateComplexityReport = require('./gulp_config/plato')(gulp, errorHandler);
 gulp.task('generateComplexityReport', generateComplexityReport);
 
+gulp.task('openComplexityReport', function openComplexityReport(){
+    gulp.src('./test_results/complexity_report/index.html')
+        .pipe(opener("<%file.path%>",{app:"google-chrome"}));
+});
+
+gulp.task('complexityReport', function complexityReport(){
+    runSequence(
+        'generateComplexityReport',
+        'openComplexityReport'
+    );
+});
 /*
 * @todo
 * default[rebuild, retest]

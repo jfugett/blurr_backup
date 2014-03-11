@@ -1,1 +1,6 @@
-console.log('server will go here');
+module.exports = {
+    server: 2,
+    getServer: function getServer(){
+        return this.server;
+    }
+}

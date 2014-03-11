@@ -6,7 +6,7 @@ var watch = require('gulp-watch');
 var jshint = require('gulp-jshint');
 var stylish = require('jshint-stylish');
 
-var generator = function generator(gulp, errorHandler, growlerNotification){
+var generator = function generator(gulp, errorHandler){
     var watchJsHint = function watchJsHint(){
         var combined = combine(
             watch({glob: paths.scripts}, function jsHintWatcher(files){
@@ -14,12 +14,7 @@ var generator = function generator(gulp, errorHandler, growlerNotification){
                     files,
                     jshint(),
                     jshint.reporter(stylish),
-                    jshint.reporter('fail'),
-                    growlerNotification({
-                        onLast: true,
-                        title: 'JSHint Finished',
-                        message: 'JSHint has finished linting your files'
-                    })
+                    jshint.reporter('fail')
                 );
                 
                 combinedTwo.on('error', errorHandler);

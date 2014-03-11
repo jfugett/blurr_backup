@@ -2,7 +2,7 @@
 
 var gutil = require('gulp-util');
 
-var notifyHandlerGenerator = function notifyHandlerGenerator(reporterFunction){
+var generator = function generator(reporterFunction){
     var notifyHandler = function notifyHandler(title, message){
         gutil.log(gutil.colors.green(title + ': ') + message);
         gutil.beep();
@@ -12,7 +12,7 @@ var notifyHandlerGenerator = function notifyHandlerGenerator(reporterFunction){
             message: message
         };
         
-        reporterFunction(options, function(){
+        reporterFunction(options, function reporterFunctionCallback(){
             return true;
         });
     };
@@ -20,4 +20,4 @@ var notifyHandlerGenerator = function notifyHandlerGenerator(reporterFunction){
     return notifyHandler;
 };
 
-module.exports = notifyHandlerGenerator;
+module.exports = generator;

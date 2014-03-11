@@ -1,8 +1,8 @@
 'use strict';
 
-var reporterGenerator = function reporterGenerator(growlerApp){
+var generator = function generator(growlerApp){
     var reporterFunction = function reporterFunction(notificationOptions, callback){
-        growlerApp.register(function(success, err){
+        growlerApp.register(function registerFunction(success, err){
             if(!success || err){
                 return callback(null, success);
             }
@@ -11,13 +11,14 @@ var reporterGenerator = function reporterGenerator(growlerApp){
             notificationOptions.text = notificationOptions.message;
             delete notificationOptions.message;
     
-            growlerApp.sendNotification('Blurr', notificationOptions, function(success, err) {
-                return callback(err, success);
-            });
+            growlerApp.sendNotification('Blurr', notificationOptions,
+                function sendNotificationCallback(success, err) {
+                    return callback(err, success);
+                });
         });
     };
     
     return reporterFunction;
 };
 
-module.exports = reporterGenerator;
+module.exports = generator;

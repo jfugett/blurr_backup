@@ -5,7 +5,7 @@ var sloc = require('gulp-sloc');
 var paths = require('./paths');
 var runSequence = require('run-sequence');
 
-var lineCountGenerator = function(gulp, errorHandler){
+var generator = function generator(gulp, errorHandler){
     var lineCounterFile = function lineCounterFile(){
         var combined = combine(
             gulp.src(paths.allFiles),
@@ -51,4 +51,4 @@ var lineCountGenerator = function(gulp, errorHandler){
     return returnObject;
 };
 
-module.exports = lineCountGenerator;
+module.exports = generator;

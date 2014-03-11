@@ -2,42 +2,49 @@
 
 var gulp = require('gulp');
 var runSequence = require('run-sequence');
-var notify = require('gulp-notify');
+//var notify = require('gulp-notify');
 var growlerApp = require('./gulp_config/growlerApp');
 var reporterFunction = require('./gulp_config/reporterFunction')(growlerApp);
 var errorHandler = require('./gulp_config/errorHandler')(reporterFunction);
 var notifyHandler = require('./gulp_config/notifyHandler')(reporterFunction);
-var growlerNotification = notify.withReporter(reporterFunction);
+//var growlerNotification = notify.withReporter(reporterFunction);
 var gulpOpen = require('gulp-open');
-var args = require('yargs').default({type: 'dev'}).argv;
+//var args = require('yargs').default({type: 'dev'}).argv;
 
-gulp.task('default', function(){
+gulp.task('default', function defaultTask(){
     notifyHandler('Gulp Started', 'Sit back, relax, and let us handle it for you :)');
     
-    // @todo code complexity, lines of code, generate todos, generate changelog
     runSequence(
-        'watchTest',
-        'watchBuild',
-        function(){
-            console.log(args);
-        }
+        ['watchTest', 'watchBuild']
     );
 });
 
-gulp.task('test', function(){
+gulp.task('watchBuild', function watchBuild(){
+    runSequence(
+        ['watchCodeComplexity', 'watchChangeLog', 'watchTodos']
+    );
+});
+
+gulp.task('watchTest', function watchTest(){
+    runSequence(
+        ['watchJsHint', 'watchLineCount']
+    );
+});
+
+gulp.task('test', function test(){
     notifyHandler('Started Running Tests', 'We\'re now running the tests for the application');
     
     runSequence(
         'jsHint',
         'lineCounter',
         'complexityReport',
-        function(){
+        function callback(){
             notifyHandler('Finished Running Tests', 'The tests have now completed running');
         }
     );
 });
 
-gulp.task('build', function(){
+gulp.task('build', function build(){
     notifyHandler('Starting Build', 'We\'re now building the application');
     
     runSequence(
@@ -45,24 +52,24 @@ gulp.task('build', function(){
         'bumpVersion',
         'generateTodos',
         'generateChangeLog',
-        function(){
+        function callback(){
             notifyHandler('Finished Building Application', 'The application has finished building');
         }
     );
 });
 
-gulp.task('deploy', function(){
+gulp.task('deploy', function deploy(){
     notifyHandler('Starting Deploy Process', 'We\'re starting the deployment process for you now');
     
     runSequence(
         'build',
-        function(){
+        function callback(){
             notifyHandler('Finished Deploying', 'The application has finished being deployed');
         }
     );
 });
 
-var jsHint = require('./gulp_config/jsHint')(gulp, errorHandler, growlerNotification);
+var jsHint = require('./gulp_config/jsHint')(gulp, errorHandler);
 gulp.task('jsHint', jsHint);
 
 var lineCounter = require('./gulp_config/lineCounter')(gulp, errorHandler);
@@ -79,7 +86,7 @@ gulp.task('generateTodos', generateTodos);
 var generateChangeLog = require('./gulp_config/generateChangeLog')(gulp, errorHandler);
 gulp.task('generateChangeLog', generateChangeLog);
 
-var watchJsHint = require('./gulp_config/watchJsHint')(gulp, errorHandler, growlerNotification);
+var watchJsHint = require('./gulp_config/watchJsHint')(gulp, errorHandler);
 gulp.task('watchJsHint', watchJsHint);
 
 var generateComplexityReport = require('./gulp_config/plato')(gulp, errorHandler);
@@ -96,6 +103,21 @@ gulp.task('complexityReport', function complexityReport(){
         'openComplexityReport'
     );
 });
+
+var watchCodeComplexity = require('./gulp_config/watchCodeComplexity')(gulp, errorHandler);
+gulp.task('watchCodeComplexity', watchCodeComplexity);
+
+var watchLineCount = require('./gulp_config/watchLineCount')(gulp, errorHandler);
+gulp.task('watchLineCount', watchLineCount);
+
+var watchChangeLog = require('./gulp_config/watchChangeLog')(gulp, errorHandler);
+gulp.task('watchChangeLog', watchChangeLog);
+
+var watchTodos = require('./gulp_config/watchTodos')(gulp, errorHandler);
+gulp.task('watchTodos', watchTodos);
+
+var appUnitTests = require('./gulp_config/jasmine')(gulp, errorHandler).app;
+gulp.task('appUnitTests', appUnitTests);
 
 /*
 * @todo

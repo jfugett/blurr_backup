@@ -40,7 +40,10 @@
     "gulp-plato": "^0.2.1",
     "gulp-open": "^0.2.8",
     "gulp-exec": "^1.0.4",
-    "yargs": "^1.2.1"
+    "yargs": "^1.2.1",
+    "gulp-jasmine": "^0.2.0",
+    "gulp-istanbul-enforcer": "^1.0.2",
+    "gulp-istanbul": "^0.1.1"
   },
   "dependencies": {
     "async": "^0.2.10",

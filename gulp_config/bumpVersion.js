@@ -3,7 +3,7 @@
 var mversion = require('gulp-mversion');
 var args = require('yargs').default({type: 'dev'}).argv;
 
-var bumpVersionGenerator = function bumpVersionGenerator(gulp, errorHandler, notifyHandler){
+var generator = function generator(gulp, errorHandler, notifyHandler){
     var bumpVersion = function bumpVersion(){
 
         var type = args.type;
@@ -30,4 +30,4 @@ var bumpVersionGenerator = function bumpVersionGenerator(gulp, errorHandler, not
     return bumpVersion;
 };
 
-module.exports = bumpVersionGenerator;
+module.exports = generator;

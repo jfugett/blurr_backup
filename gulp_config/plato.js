@@ -13,20 +13,11 @@ var generator = function generator(gulp, errorHandler){
             gulp.src(paths.scripts),
             plato('./test_results/complexity_report/', {
                 jshint: {
-                    options: jsHintrc,
-                    globals: jsHintrc.globals
+                    'options': jsHintrc,
+                    'globals': jsHintrc.globals
                 },
                 complexity: {
-                    format: 'markdown',
-                    maxfod: 15,
-                    maxcost: 40,
-                    maxsize: 20,
-                    minmi: 100,
-                    maxcyc: 10,
-                    maxcycden: 20,
-                    maxhd: 10,
-                    maxhv: 400,
-                    maxhe: 4000,
+                    'format': 'markdown',
                     newmi : true
                 }
             })

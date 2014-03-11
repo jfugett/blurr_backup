@@ -2,7 +2,7 @@
 
 var gutil = require('gulp-util');
 
-var errorHandlerGenerator = function errorHandlerGenerator(reporterFunction){
+var generator = function generator(reporterFunction){
     var errorHandler = function errorHandler(error){
         gutil.log(gutil.colors.red(error.message));
         gutil.beep();
@@ -12,7 +12,7 @@ var errorHandlerGenerator = function errorHandlerGenerator(reporterFunction){
             message: 'Error: ' + error.message
         };
         
-        reporterFunction(options, function(){
+        reporterFunction(options, function reporterFunctionCallback(){
             return true;
         });
     };
@@ -20,4 +20,4 @@ var errorHandlerGenerator = function errorHandlerGenerator(reporterFunction){
     return errorHandler;
 };
 
-module.exports = errorHandlerGenerator;
+module.exports = generator;

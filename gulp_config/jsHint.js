@@ -5,18 +5,13 @@ var paths = require('./paths.js');
 var jshint = require('gulp-jshint');
 var stylish = require('jshint-stylish');
 
-var jsHintGenerator = function jsHintGenerator(gulp, errorHandler, growlerNotification){
+var generator = function generator(gulp, errorHandler){
     var jsHint = function jsHint(){
         var combined = combine(
             gulp.src(paths.scripts),
             jshint(),
             jshint.reporter(stylish),
-            jshint.reporter('fail'),
-            growlerNotification({
-                onLast: true,
-                title: 'JSHint Finished',
-                message: 'JSHint has finished linting your files'
-            })
+            jshint.reporter('fail')
         );
         
         combined.on('error', errorHandler);
@@ -27,4 +22,4 @@ var jsHintGenerator = function jsHintGenerator(gulp, errorHandler, growlerNotifi
     return jsHint;
 };
 
-module.exports = jsHintGenerator;
+module.exports = generator;

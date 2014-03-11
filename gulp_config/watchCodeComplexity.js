@@ -6,10 +6,16 @@ var watch = require('gulp-watch');
 
 var generator = function generator(gulp, errorHandler){
     var watchCodeComplexity = function watchCodeComplexity(){
+
+        var ran = false;
+
         var combined = combine(
             gulp.src(paths.scripts),
             watch(function codeComplexityWatcher(){
-                gulp.start('generateComplexityReport');
+                if(!ran){
+                    ran = true;
+                    gulp.start('generateComplexityReport');
+                }
             })
         );
         

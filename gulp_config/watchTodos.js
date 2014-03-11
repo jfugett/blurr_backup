@@ -6,10 +6,16 @@ var watch = require('gulp-watch');
 
 var generator = function generator(gulp, errorHandler){
     var watchTodos = function watchTodos(){
+
+        var ran = false;
+
         var combined = combine(
             gulp.src(paths.scripts),
             watch(function todosWatcher(){
-                gulp.start('generateTodos');
+                if(!ran){
+                    ran = true;
+                    gulp.start('generateTodos');
+                }
             })
         );
         

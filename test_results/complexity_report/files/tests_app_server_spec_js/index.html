@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>Plato - gulp_config/lineCounter.js</title>
+  <title>Plato - tests/app/server.spec.js</title>
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="">
@@ -37,7 +37,7 @@
 
 <div class="jumbotron">
   <div class="container">
-    <h1>gulp_config/lineCounter.js</h1>
+    <h1>tests/app/server.spec.js</h1>
   </div>
 </div>
 
@@ -45,11 +45,11 @@
   <div class="row">
     <div class="col-md-6">
       <h2 class="header">Maintainability <a href="http://blogs.msdn.com/b/codeanalysis/archive/2007/11/20/maintainability-index-range-and-meaning.aspx"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="A value between 0 and 100 that represents the relative ease of maintaining the code. A high value means better maintainability." data-original-title="Maintainability Index"  data-container="body"></i></a></h2>
-      <p class="stat">74.08</p>
+      <p class="stat">76.19</p>
     </div>
     <div class="col-md-6">
       <h2 class="header">Lines of code <i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Source Lines of Code / Logical Lines of Code" data-original-title="SLOC/LSLOC" data-container="body"></i></h2>
-      <p class="stat">50</p>
+      <p class="stat">7</p>
     </div>
   </div>
   <div class="row historical">
@@ -63,11 +63,11 @@
   <div class="row">
     <div class="col-md-6">
       <h2 class="header">Difficulty  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="The difficulty measure is related to the difficulty of the program to write or understand." data-original-title="Difficulty" data-container="body"></i></a></h2>
-      <p class="stat">8.11</p>
+      <p class="stat">3.13</p>
     </div>
     <div class="col-md-6">
       <h2 class="header">Estimated Errors  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Halstead's delivered bugs is an estimate for the number of errors in the implementation." data-original-title="Delivered Bugs" data-container="body"></i></a></h2>
-      <p class="stat">0.24</p>
+      <p class="stat">0.02</p>
     </div>
   </div>
 </div>
@@ -92,54 +92,16 @@
   <div class="row">
     <textarea id="file-source" class="col-md-12">&#039;use strict&#039;;
 
-var combine = require(&#039;stream-combiner&#039;);
-var sloc = require(&#039;gulp-sloc&#039;);
-var paths = require(&#039;./paths&#039;);
-var runSequence = require(&#039;run-sequence&#039;);
+var basePath = &#039;../../&#039;;
 
-var generator = function generator(gulp, errorHandler){
-    var lineCounterFile = function lineCounterFile(){
-        var combined = combine(
-            gulp.src(paths.allFiles),
-            sloc({
-                tolerant: true,
-                reportType: &#039;json&#039;,
-                reportFile: &#039;lineCount.json&#039;
-            }),
-            gulp.dest(&#039;./test_results/&#039;)
-        );
-        
-        combined.on(&#039;error&#039;, errorHandler);
-    };
-    
-    var lineCounterConsole = function lineCounterConsole(){
-        var combinedTwo = combine(
-            gulp.src(paths.allFiles),
-            sloc({
-                tolerant: true
-            })
-        );
-        
-        combinedTwo.on(&#039;error&#039;, errorHandler);
-    };
-    
-    var lineCounter = function lineCounter(){
-        return runSequence(
-            &#039;lineCounterFile&#039;,
-            &#039;lineCounterConsole&#039;
-        );
-    };
-    
-    var returnObject = {
-        lineCounter: lineCounter,
-        lineCounterConsole: lineCounterConsole,
-        lineCounterFile: lineCounterFile
-    };
-    
-    return returnObject;
-};
+var server = require(basePath + &#039;server&#039;);
 
-module.exports = generator;</textarea>
+console.log(server);
+/*describe(&#039;Server Test&#039;, function(){
+    it(&#039;Should be 2.&#039;, function(){
+        expect(server.server).toBe(2);
+    });
+});*/</textarea>
   </div>
 </div>
 

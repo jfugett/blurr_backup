@@ -67,7 +67,7 @@
     </div>
     <div class="col-md-6">
       <h2 class="header">Estimated Errors  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Halstead's delivered bugs is an estimate for the number of errors in the implementation." data-original-title="Delivered Bugs" data-container="body"></i></a></h2>
-      <p class="stat">0.83</p>
+      <p class="stat">0.88</p>
     </div>
   </div>
 </div>
@@ -94,16 +94,13 @@
 
 var gulp = require(&#039;gulp&#039;);
 var runSequence = require(&#039;run-sequence&#039;);
-//var notify = require(&#039;gulp-notify&#039;);
 var growlerApp = require(&#039;./gulp_config/growlerApp&#039;);
 var reporterFunction = require(&#039;./gulp_config/reporterFunction&#039;)(growlerApp);
 var errorHandler = require(&#039;./gulp_config/errorHandler&#039;)(reporterFunction);
 var notifyHandler = require(&#039;./gulp_config/notifyHandler&#039;)(reporterFunction);
-//var growlerNotification = notify.withReporter(reporterFunction);
 var gulpOpen = require(&#039;gulp-open&#039;);
-//var args = require(&#039;yargs&#039;).default({type: &#039;dev&#039;}).argv;
 
-gulp.task(&#039;default&#039;, function(){
+gulp.task(&#039;default&#039;, function defaultTask(){
     notifyHandler(&#039;Gulp Started&#039;, &#039;Sit back, relax, and let us handle it for you :)&#039;);
     
     runSequence(
@@ -207,6 +204,9 @@ gulp.task(&#039;watchChangeLog&#039;, watchChangeLog);
 
 var watchTodos = require(&#039;./gulp_config/watchTodos&#039;)(gulp, errorHandler);
 gulp.task(&#039;watchTodos&#039;, watchTodos);
+
+var appUnitTests = require(&#039;./gulp_config/jasmine&#039;)(gulp, errorHandler).app;
+gulp.task(&#039;appUnitTests&#039;, appUnitTests);
 
 /*
 * @todo

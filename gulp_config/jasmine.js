@@ -2,7 +2,7 @@
 
 var jasmine = require('gulp-jasmine');
 var combine = require('stream-combiner');
-var coverageEnforcer = require("gulp-istanbul-enforcer");
+var coverageEnforcer = require('gulp-istanbul-enforcer');
 var istanbul = require('gulp-istanbul');
 var gulpOpen = require('gulp-open');
 

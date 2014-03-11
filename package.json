@@ -1,6 +1,6 @@
 {
   "name": "Blurr",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Build applications so fast everybody else will see a blurr",
   "main": "app/server.js",
   "scripts": {
@@ -43,7 +43,8 @@
     "yargs": "^1.2.1",
     "gulp-jasmine": "^0.2.0",
     "gulp-istanbul-enforcer": "^1.0.2",
-    "gulp-istanbul": "^0.1.1"
+    "gulp-istanbul": "^0.1.1",
+    "gulp-debug": "^0.2.0"
   },
   "dependencies": {
     "async": "^0.2.10",

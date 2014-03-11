@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>Plato - gulp_config/lineCounter.js</title>
+  <title>Plato - gulp_config/jasmine.js</title>
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="">
@@ -37,7 +37,7 @@
 
 <div class="jumbotron">
   <div class="container">
-    <h1>gulp_config/lineCounter.js</h1>
+    <h1>gulp_config/jasmine.js</h1>
   </div>
 </div>
 
@@ -45,11 +45,11 @@
   <div class="row">
     <div class="col-md-6">
       <h2 class="header">Maintainability <a href="http://blogs.msdn.com/b/codeanalysis/archive/2007/11/20/maintainability-index-range-and-meaning.aspx"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="A value between 0 and 100 that represents the relative ease of maintaining the code. A high value means better maintainability." data-original-title="Maintainability Index"  data-container="body"></i></a></h2>
-      <p class="stat">74.08</p>
+      <p class="stat">63.60</p>
     </div>
     <div class="col-md-6">
       <h2 class="header">Lines of code <i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Source Lines of Code / Logical Lines of Code" data-original-title="SLOC/LSLOC" data-container="body"></i></h2>
-      <p class="stat">50</p>
+      <p class="stat">55</p>
     </div>
   </div>
   <div class="row historical">
@@ -63,11 +63,11 @@
   <div class="row">
     <div class="col-md-6">
       <h2 class="header">Difficulty  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="The difficulty measure is related to the difficulty of the program to write or understand." data-original-title="Difficulty" data-container="body"></i></a></h2>
-      <p class="stat">8.11</p>
+      <p class="stat">9.10</p>
     </div>
     <div class="col-md-6">
       <h2 class="header">Estimated Errors  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Halstead's delivered bugs is an estimate for the number of errors in the implementation." data-original-title="Delivered Bugs" data-container="body"></i></a></h2>
-      <p class="stat">0.24</p>
+      <p class="stat">0.31</p>
     </div>
   </div>
 </div>
@@ -92,51 +92,56 @@
   <div class="row">
     <textarea id="file-source" class="col-md-12">&#039;use strict&#039;;
 
+var jasmine = require(&#039;gulp-jasmine&#039;);
 var combine = require(&#039;stream-combiner&#039;);
-var sloc = require(&#039;gulp-sloc&#039;);
-var paths = require(&#039;./paths&#039;);
-var runSequence = require(&#039;run-sequence&#039;);
+var coverageEnforcer = require(&#039;gulp-istanbul-enforcer&#039;);
+var istanbul = require(&#039;gulp-istanbul&#039;);
+var gulpOpen = require(&#039;gulp-open&#039;);
 
 var generator = function generator(gulp, errorHandler){
-    var lineCounterFile = function lineCounterFile(){
+    var appUnitTests = function appUnitTests(){
+        
         var combined = combine(
-            gulp.src(paths.allFiles),
-            sloc({
-                tolerant: true,
-                reportType: &#039;json&#039;,
-                reportFile: &#039;lineCount.json&#039;
-            }),
-            gulp.dest(&#039;./test_results/&#039;)
+            gulp.src(&#039;app/**/*.js&#039;),
+            istanbul()
         );
         
         combined.on(&#039;error&#039;, errorHandler);
-    };
-    
-    var lineCounterConsole = function lineCounterConsole(){
+        
         var combinedTwo = combine(
-            gulp.src(paths.allFiles),
-            sloc({
-                tolerant: true
-            })
+            gulp.src([&#039;tests/app/**/*.spec.js&#039;, &#039;app/**/*.js&#039;]),
+            jasmine(),
+            istanbul.writeReports(),
+            gulp.dest(&#039;coverage/&#039;)
         );
         
         combinedTwo.on(&#039;error&#039;, errorHandler);
-    };
-    
-    var lineCounter = function lineCounter(){
-        return runSequence(
-            &#039;lineCounterFile&#039;,
-            &#039;lineCounterConsole&#039;
+        
+        var options = {
+            thresholds: {
+                statements: 100,
+                branches: 100,
+                lines: 100,
+                functions: 100
+            },
+            coverageDirectory: &#039;coverage/&#039;,
+            rootDirectory: &#039;.&#039;
+        };
+        
+        var combinedThree = combine(
+            gulp.src(&#039;.&#039;),
+            coverageEnforcer(options),
+            gulpOpen(&#039;coverage/lcov-report/index.html&#039;, {app: &#039;chrome&#039;})
         );
+        
+        combinedThree.on(&#039;error&#039;, errorHandler);
     };
     
-    var returnObject = {
-        lineCounter: lineCounter,
-        lineCounterConsole: lineCounterConsole,
-        lineCounterFile: lineCounterFile
+    var tests = {
+        app: appUnitTests
     };
     
-    return returnObject;
+    return tests;
 };
 
 module.exports = generator;</textarea>

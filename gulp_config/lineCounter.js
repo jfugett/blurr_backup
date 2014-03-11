@@ -18,8 +18,6 @@ var generator = function generator(gulp, errorHandler){
         );
         
         combined.on('error', errorHandler);
-        
-        return combined;
     };
     
     var lineCounterConsole = function lineCounterConsole(){
@@ -31,8 +29,6 @@ var generator = function generator(gulp, errorHandler){
         );
         
         combinedTwo.on('error', errorHandler);
-        
-        return combinedTwo;
     };
     
     var lineCounter = function lineCounter(){

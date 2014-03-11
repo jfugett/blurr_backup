@@ -2,14 +2,11 @@
 
 var gulp = require('gulp');
 var runSequence = require('run-sequence');
-//var notify = require('gulp-notify');
 var growlerApp = require('./gulp_config/growlerApp');
 var reporterFunction = require('./gulp_config/reporterFunction')(growlerApp);
 var errorHandler = require('./gulp_config/errorHandler')(reporterFunction);
 var notifyHandler = require('./gulp_config/notifyHandler')(reporterFunction);
-//var growlerNotification = notify.withReporter(reporterFunction);
 var gulpOpen = require('gulp-open');
-//var args = require('yargs').default({type: 'dev'}).argv;
 
 gulp.task('default', function defaultTask(){
     notifyHandler('Gulp Started', 'Sit back, relax, and let us handle it for you :)');

@@ -11,7 +11,7 @@ var generator = function generator(gulp, errorHandler){
 
         var combined = combine(
             gulp.src(paths.scripts),
-            watch(function changeLogWatcher(){
+            watch(function changeLogWatcher(files){
                 if(!ran){
                     ran = true;
                     gulp.start('generateChangeLog');

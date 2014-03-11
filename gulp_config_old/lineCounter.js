@@ -12,7 +12,7 @@ var generator = function generator(gulp, errorHandler){
             sloc({
                 tolerant: true,
                 reportType: 'json',
-                reportFile: 'lineCount.out'
+                reportFile: 'lineCount.json'
             }),
             gulp.dest('./test_results/')
         );

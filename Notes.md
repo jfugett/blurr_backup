@@ -5,7 +5,6 @@
     "gulp-todo": "^0.1.5",
     "conventional-changelog": "0.0.6",
     "gulp-plato": "^0.2.1",
-    "gulp-open": "^0.2.8",
     "gulp-exec": "^1.0.4",
     "gulp-jasmine": "^0.2.0",
     "gulp-istanbul-enforcer": "^1.0.2",

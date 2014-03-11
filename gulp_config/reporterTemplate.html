@@ -1,0 +1,9 @@
+        <% _.forEach(results, function(file) { %>
+        <tr>
+            <td><%- file.file %></td>
+            <td><%- file.error.line %></td>
+            <td><%- file.error.character %></td>
+            <td><%- file.error.reason %></td>
+            <td><%- file.error.evidence %></td>
+        </tr>
+        <% }); %>

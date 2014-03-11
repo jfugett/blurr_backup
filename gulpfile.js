@@ -1,157 +1,97 @@
 'use strict';
 
+// include the gulp task runner
 var gulp = require('gulp');
+
+// include runSequence so tasks can be run sequentially
 var runSequence = require('run-sequence');
+
+// include the needed libraries for growl notifications
 var growlerApp = require('./gulp_config/growlerApp');
 var reporterFunction = require('./gulp_config/reporterFunction')(growlerApp);
+
+// setup our default error handler
 var errorHandler = require('./gulp_config/errorHandler')(reporterFunction);
+
+// setup a notification handler to avoid repitition
 var notifyHandler = require('./gulp_config/notifyHandler')(reporterFunction);
-var gulpOpen = require('gulp-open');
+//var gulpOpen = require('gulp-open');
 
+// get the desired build if any (only used in build and deploy)
+var args = require('yargs').string('type').default({type: 'dev'}).argv;
+var type = args.type;
+
+// regular expression to ensure forced build names are consistent with semver notation
+var semverPattern = /^(\d+\.\d+\.\d+)(?:-([0-9A-Za-z-]+(?:\.[0-9A-Za-z-]+)*))?(?:\+([0-9A-Za-z-]+(?:\.[0-9A-Za-z-]+)*))?$/;
+var typePasses = type.match(semverPattern);
+
+// make sure the build type is valid
+if(type !== 'dev' && type !== 'patch' && type !== 'alpha' && type !== 'beta' && type !== 'prod' && !typePasses){
+    throw new Error('that is not a valid build');
+}
+
+// assign this to gulp so we have access to it in our build/deploy tasks as needed
+gulp.type = type;
+
+// the default task when no task is specified, it just passes control to dev
 gulp.task('default', function defaultTask(){
-    notifyHandler('Gulp Started', 'Sit back, relax, and let us handle it for you :)');
-    
-    runSequence(
-        ['watchTest', 'watchBuild']
-    );
+    gulp.start('dev');
 });
 
-gulp.task('watchBuild', function watchBuild(){
-    runSequence(
-        ['watchCodeComplexity', 'watchChangeLog', 'watchTodos']
-    );
-});
-
-gulp.task('watchTest', function watchTest(){
-    runSequence(
-        ['watchJsHint', 'watchLineCount']
-    );
-});
-
-gulp.task('test', function test(){
-    notifyHandler('Started Running Tests', 'We\'re now running the tests for the application');
-    
-    runSequence(
-        'jsHint',
-        'lineCounter',
-        'complexityReport',
-        function callback(){
-            notifyHandler('Finished Running Tests', 'The tests have now completed running');
-        }
-    );
-});
-
-gulp.task('build', function build(){
-    notifyHandler('Starting Build', 'We\'re now building the application');
-    
-    runSequence(
-        'test',
-        'bumpVersion',
-        'generateTodos',
-        'generateChangeLog',
-        function callback(){
-            notifyHandler('Finished Building Application', 'The application has finished building');
-        }
-    );
-});
-
-gulp.task('deploy', function deploy(){
-    notifyHandler('Starting Deploy Process', 'We\'re starting the deployment process for you now');
+// the task that should be run for developers
+gulp.task('dev', function dev(){
+    notifyHandler('Starting Development Environment', 'Please be patient we\'ll have you up and running in no time');
     
     runSequence(
         'build',
-        function callback(){
-            notifyHandler('Finished Deploying', 'The application has finished being deployed');
+        'watchFiles',
+        function devSetupNotifer(){
+            notifyHandler('Development Environment Running', 'We\'ll keep an eye on things so sit back, relax, and do what you do');
         }
     );
 });
 
-var jsHint = require('./gulp_config/jsHint')(gulp, errorHandler);
-gulp.task('jsHint', jsHint);
-
-var lineCounter = require('./gulp_config/lineCounter')(gulp, errorHandler);
-gulp.task('lineCounter', lineCounter.lineCounter);
-gulp.task('lineCounterConsole', lineCounter.lineCounterConsole);
-gulp.task('lineCounterFile', lineCounter.lineCounterFile);
-
-var bumpVersion = require('./gulp_config/bumpVersion')(gulp, errorHandler, notifyHandler);
-gulp.task('bumpVersion', bumpVersion);
-
-var generateTodos = require('./gulp_config/generateTodos')(gulp, errorHandler);
-gulp.task('generateTodos', generateTodos);
-
-var generateChangeLog = require('./gulp_config/generateChangeLog')(gulp, errorHandler);
-gulp.task('generateChangeLog', generateChangeLog);
-
-var watchJsHint = require('./gulp_config/watchJsHint')(gulp, errorHandler);
-gulp.task('watchJsHint', watchJsHint);
-
-var generateComplexityReport = require('./gulp_config/plato')(gulp, errorHandler);
-gulp.task('generateComplexityReport', generateComplexityReport);
-
-gulp.task('openComplexityReport', function openComplexityReport(){
-    return gulp.src('./test_results/complexity_report/index.html')
-        .pipe(gulpOpen('file://<%= file.path %>',{app:'chrome'}));
-});
-
-gulp.task('complexityReport', function complexityReport(){
+// the task that will run all of the base tests
+gulp.task('test', function test(){
+    notifyHandler('Running Tests', 'We\'re running the tests to make sure nothing broke please bear with us');
+    
     runSequence(
-        'generateComplexityReport',
-        'openComplexityReport'
+        'jsHintAll',
+        'jsHintOpen',
+        function testFinishedNotifier(){
+            notifyHandler('Tests Finished Running', 'The tests have completed successfully');
+        }
     );
 });
 
-var watchCodeComplexity = require('./gulp_config/watchCodeComplexity')(gulp, errorHandler);
-gulp.task('watchCodeComplexity', watchCodeComplexity);
+// the task to build the application from its sources
+gulp.task('build', function build(){
+    notifyHandler('Building Application Files', 'We\'re building the application files please bear with us');
+    
+    runSequence(
+        'test',
+        function buildCompletedNotifier(){
+            notifyHandler('Build Complete', 'The application is now built and ready to be run');
+        }
+    );
+});
 
-var watchLineCount = require('./gulp_config/watchLineCount')(gulp, errorHandler);
-gulp.task('watchLineCount', watchLineCount);
+// the task to deploy the codebase to staging/production
+gulp.task('deploy', function deploy(){
+    notifyHandler('Preparing for Deployment', 'The deploy process is starting, please bear with us');
+    
+    runSequence(
+        'build',
+        function deployCompletedNotifier(){
+            notifyHandler('Deployment Complete', 'We have finished deploying the build');
+        }
+    );
+});
 
-var watchChangeLog = require('./gulp_config/watchChangeLog')(gulp, errorHandler);
-gulp.task('watchChangeLog', watchChangeLog);
+// this task is used by the development task to handle tasks when files change
+gulp.task('watchFiles', function(){
+    notifyHandler('Watcher Start', 'Gulp is watching your files for changes so you can ignore most of the background noise');
+});
 
-var watchTodos = require('./gulp_config/watchTodos')(gulp, errorHandler);
-gulp.task('watchTodos', watchTodos);
-
-var appUnitTests = require('./gulp_config/jasmine')(gulp, errorHandler).app;
-gulp.task('appUnitTests', appUnitTests);
-
-/*
-* @todo
-*
-* code coverage - default, test
-* code coverage enforcement - default, test
-* unit testing for node - default, test
-* unit testing for front-end - default, test
-* integration testing - test
-* api testing - test
-* performance testing - test
-* load testng - test
-* cpu testing - test
-* memory testing - test
-* worker testing - test
-* e2e testing - test
-* less compilation - default, build
-* js minification - build
-* css minification - build
-* image minification - build
-* html minification - build
-* auto reload of browser - default
-* auto reload of server - default
-* Integrated Browser testing (sauce labs) - test
-* CDN support - build/deploy (not sure which)
-* Browserify on shared files - default, build
-* cache busting - default, build
-* angular template precompilation and concatenation - default, build
-* ngmin - build/deploy (not sure which)
-* phantom, casper, slimer, and zombie.js support - test
-* css concatenation - default, build
-* js concatenation - default, build
-* json strip comments - build
-* code documentation generator - default, build
-* static site generation - for SEO - deploy
-* !18n file pre-compilation - default, build
-* !18n caching - build/deploy (may be better to make this one happen through the CDN)
-* Automatic setup/installation script - deploy
-* Automated release tool - deploy
-*/
+// require jshint tasks
+require('./gulp_config/jsHint')(gulp, errorHandler);

@@ -7,7 +7,7 @@ var watch = require('gulp-watch');
 var generator = function generator(gulp, errorHandler){
     var watchChangeLog = function watchChangeLog(){
         var combined = combine(
-            gulp.src(paths.allFiles),
+            gulp.src(paths.scripts),
             watch(function changeLogWatcher(){
                 gulp.start('generateChangeLog');
             })

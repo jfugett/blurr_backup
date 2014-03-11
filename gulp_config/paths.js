@@ -10,9 +10,8 @@ var paths = {
         'tests/**/*.js'
     ],
     'allFiles': [
-        './*.js',
+        '*.js',
         'gulp_config/**/*.js',
-        '*.json',
         'app/**/*.js',
         'client/**/*.js',
         'workers/**/*.js',

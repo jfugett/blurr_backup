@@ -7,7 +7,7 @@ var watch = require('gulp-watch');
 var generator = function generator(gulp, errorHandler){
     var watchCodeComplexity = function watchCodeComplexity(){
         var combined = combine(
-            gulp.src(paths.allFiles),
+            gulp.src(paths.scripts),
             watch(function lineCountWatcher(){
                 gulp.start('lineCounter');
             })

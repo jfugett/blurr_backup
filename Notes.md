@@ -13,7 +13,6 @@
 ** make sure that watches don't break but everything else should
 
 dev - when developing locally
-
 2) Start the server and launch the browser window
 
 dev on file change - when developing locally and you change a file

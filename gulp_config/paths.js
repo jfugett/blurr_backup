@@ -2,7 +2,7 @@
 
 var paths = {
     'scripts': [
-        '*.js',
+        'gulpfile.js',
         'gulp_config/**/*.js',
         'app/**/*.js',
         'client/**/*.js',
@@ -10,7 +10,7 @@ var paths = {
         'tests/**/*.js'
     ],
     'allFiles': [
-        '*.js',
+        'gulpfile.js',
         'gulp_config/**/*.js',
         'app/**/*.js',
         'client/**/*.js',

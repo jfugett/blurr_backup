@@ -16,7 +16,6 @@ var paths = {
         'client/**/*.js',
         'workers/**/*.js',
         'tests/**/*.js',
-        './gulpfile.js'
     ]
 };
 

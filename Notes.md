@@ -49,11 +49,10 @@ test - when running tests
     api tests
     e2e tests
     browser testing (saucelabs or local depending on environment)
-    phantom browser testing (maybe using casper?)
+    phantomjs browser testing (maybe using casper?)
     slimer browser testing (maybe using casper?)
 
 build - when doing a build
-    changelog generation
     todo generation
     line count - uncompressed and compressed as two separate results
     file sizes - uncompressed and compressed as two separate results

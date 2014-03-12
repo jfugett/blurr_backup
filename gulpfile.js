@@ -70,6 +70,7 @@ gulp.task('build', function build(){
     
     runSequence(
         'test',
+        'changeLog',
         function buildCompletedNotifier(){
             notifyHandler('Build Complete', 'The application is now built and ready to be run');
         }
@@ -102,3 +103,6 @@ require('./gulp_config/jsHint')(gulp, errorHandler);
 
 // require jshint watcher tasks
 require('./gulp_config/jsHintWatch')(gulp, errorHandler);
+
+// require the changelog task
+require('./gulp_config/changeLog')(gulp, errorHandler);

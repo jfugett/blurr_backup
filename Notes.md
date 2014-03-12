@@ -16,7 +16,6 @@ dev - when developing locally
 2) Start the server and launch the browser window
 
 dev on file change - when developing locally and you change a file
-    jshint
     line count - uncompressed and compressed as two separate results
     file sizes - uncompressed and compressed as two separate results
     todo generation

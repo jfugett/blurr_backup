@@ -91,7 +91,14 @@ gulp.task('deploy', function deploy(){
 // this task is used by the development task to handle tasks when files change
 gulp.task('watchFiles', function(){
     notifyHandler('Watcher Start', 'Gulp is watching your files for changes so you can ignore most of the background noise');
+    
+    runSequence(
+        'jsHintWatchAll'
+    );
 });
 
 // require jshint tasks
 require('./gulp_config/jsHint')(gulp, errorHandler);
+
+// require jshint watcher tasks
+require('./gulp_config/jsHintWatch')(gulp, errorHandler);

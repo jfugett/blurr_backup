@@ -1,11 +1,8 @@
     "gulp-sloc": "^1.0.3",
-    "gulp-watch": "^0.5.2",
     "gulp-mversion": "^0.1.0",
     "gulp-prompt": "^0.1.0",
     "gulp-todo": "^0.1.5",
-    "conventional-changelog": "0.0.6",
     "gulp-plato": "^0.2.1",
-    "gulp-exec": "^1.0.4",
     "gulp-jasmine": "^0.2.0",
     "gulp-istanbul-enforcer": "^1.0.2",
     "gulp-istanbul": "^0.1.1",
@@ -53,20 +50,21 @@ test - when running tests
     slimer browser testing (maybe using casper?)
 
 build - when doing a build
+    less compilation
+    css minification
+    css concatenation
+
     todo generation
     line count - uncompressed and compressed as two separate results
     file sizes - uncompressed and compressed as two separate results
     bump version
-    less compilation
     js mnification
-    css minification
     image compression
     html minification
     browserify on shared files
     cache busting
     angular template precompilation and concatenation
     ngmin
-    css concatenation
     js concatenation
     strip json comments
     move files to the build directory

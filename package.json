@@ -33,7 +33,8 @@
     "growler": "0.0.1",
     "gulp-if": "0.0.5",
     "gulp-open": "^0.2.8",
-    "gulp-watch": "^0.5.2"
+    "gulp-watch": "^0.5.2",
+    "gulp-exec": "^1.0.4"
   },
   "dependencies": {
     "async": "^0.2.10",

@@ -15,7 +15,7 @@ var template = fs.readFileSync('./gulp_config/reporterTemplate.html');
 // now we get the outer template that has all of the html body
 var outerTemplate = fs.readFileSync('./gulp_config/reporterOuterTemplate.html');
 
-module.exports = {
+var jsHintReporter = {
     // this is where the output will be sent
     outputFile: './test_results/jshint.html',
 
@@ -23,7 +23,7 @@ module.exports = {
     writeOutput: function writeOutput(output){
         // wrap this in a try catch just so it doesn't shut down on us
         try{
-            fs.appendFileSync(this.outputFile, output);
+            fs.appendFileSync(jsHintReporter.outputFile, output);
         } catch(error) {
             console.log(error);
         }
@@ -35,7 +35,7 @@ module.exports = {
         // see if we need to remove the existing report
         if(!cleaned){
             try{
-                fs.unlinkSync(this.outputFile);
+                fs.unlinkSync(jsHintReporter.outputFile);
             } catch(error){
                 // we're ignoring the error because the file likely didn't exist
             }
@@ -50,8 +50,9 @@ module.exports = {
         
         // if there weren't any errors replace the body
         // @todo - Make this into its own template and use it instead of embedding the HTML
-        if(results.length > 0){
-            body = '<tr colspan="5"><td>No Errors Found!</td></tr>';
+        if(results.length === 0){
+            console.log(results);
+            //body = '<tr colspan="5"><td>No Errors Found!</td></tr>';
         }
         
         // wrap the output inside the outer template
@@ -59,6 +60,8 @@ module.exports = {
         var output = compiled(body);
 
         // send the output to be written
-        this.writeOutput(output);
+        jsHintReporter.writeOutput(output);
     },
 };
+
+module.exports = jsHintReporter;

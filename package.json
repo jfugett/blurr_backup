@@ -22,24 +22,17 @@
   "private": true,
   "devDependencies": {
     "gulp": "^3.5.5",
-    "gulp-util": "^2.2.14",
+    "gulp-task-listing": "^0.2.2",
     "gulp-debug": "^0.2.0",
     "yargs": "^1.2.1",
     "run-sequence": "^0.3.6",
     "stream-combiner": "0.0.4",
+    "growler": "0.0.1",
+    "gulp-util": "^2.2.14",
+    "gulp-clean": "^0.2.4",
     "gulp-jshint": "^1.5.0",
     "jshint-stylish": "^0.1.5",
-    "gulp-notify": "^1.1.0",
-    "growler": "0.0.1",
-    "gulp-if": "0.0.5",
     "gulp-open": "^0.2.8",
-    "gulp-watch": "^0.5.2",
-    "gulp-exec": "^1.0.4"
-  },
-  "dependencies": {
-    "async": "^0.2.10",
-    "lodash": "^2.4.1",
-    "mongoose": "^3.8.8",
-    "express": "^4.0.0-rc2"
+    "gulp-jasmine": "^0.2.0"
   }
 }

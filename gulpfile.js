@@ -1,108 +1,74 @@
 'use strict';
 
-// include the gulp task runner
+// this is the main task runner
 var gulp = require('gulp');
 
 // include runSequence so tasks can be run sequentially
 var runSequence = require('run-sequence');
 
+// this is used to output information about the current tasks similar to gulp -T but with organization
+var help = require('gulp-task-listing');
+
+// here we register the help command with gulp so we can run it using gulp help
+gulp.task('help', help);
+
 // include the needed libraries for growl notifications
 var growlerApp = require('./gulp_config/growlerApp');
+
+// include a shorthand reporter function to make things easy on us
 var reporterFunction = require('./gulp_config/reporterFunction')(growlerApp);
 
 // setup our default error handler
-var errorHandler = require('./gulp_config/errorHandler')(reporterFunction);
+var errorHandler = require('./gulp_config/errorHandler')(reporterFunction, true);
+
+// setup our watch error handler that won't die on errors
+//var watchErrorHandler = require('./gulp_config/errorHandler')(reporterFunction, false);
 
 // setup a notification handler to avoid repitition
-var notifyHandler = require('./gulp_config/notifyHandler')(reporterFunction);
-//var gulpOpen = require('gulp-open');
+//var notifyHandler = require('./gulp_config/notifyHandler')(reporterFunction);
 
-// get the desired build if any (only used in build and deploy)
-var args = require('yargs').string('type').default({type: 'dev'}).argv;
-var type = args.type;
+// get the type of build
+require('./gulp_config/buildType')(gulp);
 
-// regular expression to ensure forced build names are consistent with semver notation
-var semverPattern = /^(\d+\.\d+\.\d+)(?:-([0-9A-Za-z-]+(?:\.[0-9A-Za-z-]+)*))?(?:\+([0-9A-Za-z-]+(?:\.[0-9A-Za-z-]+)*))?$/;
-var typePasses = type.match(semverPattern);
-
-// make sure the build type is valid
-if(type !== 'dev' && type !== 'patch' && type !== 'alpha' && type !== 'beta' && type !== 'prod' && !typePasses){
-    throw new Error('that is not a valid build');
-}
-
-// assign this to gulp so we have access to it in our build/deploy tasks as needed
-gulp.type = type;
-
-// the default task when no task is specified, it just passes control to dev
-gulp.task('default', function defaultTask(){
+// this is just a pass through to the dev task so we don't have to pass in an argument
+gulp.task('default', function defaultHandler(){
     gulp.start('dev');
 });
 
-// the task that should be run for developers
+// this is the development environment task
 gulp.task('dev', function dev(){
-    notifyHandler('Starting Development Environment', 'Please be patient we\'ll have you up and running in no time');
     
-    runSequence(
-        'build',
-        'watchFiles',
-        function devSetupNotifer(){
-            notifyHandler('Development Environment Running', 'We\'ll keep an eye on things so sit back, relax, and do what you do');
-        }
-    );
 });
 
-// the task that will run all of the base tests
+// this task is run to test the application
 gulp.task('test', function test(){
-    notifyHandler('Running Tests', 'We\'re running the tests to make sure nothing broke please bear with us');
-    
-    runSequence(
-        'jsHintAll',
-        'jsHintOpen',
-        function testFinishedNotifier(){
-            notifyHandler('Tests Finished Running', 'The tests have completed successfully');
-        }
+    return runSequence(
+        '_cleanTests',
+        '_jsHintAll',
+        '_jsHintOpen',
+        '_unitTestsAll'
     );
 });
 
-// the task to build the application from its sources
+// this task is run to build the application
 gulp.task('build', function build(){
-    notifyHandler('Building Application Files', 'We\'re building the application files please bear with us');
-    
-    runSequence(
-        'test',
-        'changeLog',
-        function buildCompletedNotifier(){
-            notifyHandler('Build Complete', 'The application is now built and ready to be run');
-        }
+    return runSequence(
+        'test'
     );
 });
 
-// the task to deploy the codebase to staging/production
+// this task is run to deploy the application
 gulp.task('deploy', function deploy(){
-    notifyHandler('Preparing for Deployment', 'The deploy process is starting, please bear with us');
-    
-    runSequence(
-        'build',
-        function deployCompletedNotifier(){
-            notifyHandler('Deployment Complete', 'We have finished deploying the build');
-        }
+    return runSequence(
+        'build'
     );
 });
 
-// this task is used by the development task to handle tasks when files change
-gulp.task('watchFiles', function(){
-    notifyHandler('Watcher Start', 'Gulp is watching your files for changes so you can ignore most of the background noise');
-    
-    runSequence(
-        'jsHintWatchAll'
-    );
-});
+// include our cleaning tasks here
+require('./gulp_config/clean')(gulp, errorHandler);
 
-// require jshint tasks
+// include our jsHint tasks here
 require('./gulp_config/jsHint')(gulp, errorHandler);
 
-// require jshint watcher tasks
-require('./gulp_config/jsHintWatch')(gulp, errorHandler);
-
-// require the changelog task
-require('./gulp_config/changeLog')(gulp, errorHandler);
+// include our unit test tasks here
+require('./gulp_config/unitTests')(gulp, errorHandler);

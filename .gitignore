@@ -11,8 +11,6 @@ lib-cov
 *.swo
 
 pids
-logs
-results
 
 .DS_Store
 thumbs.db

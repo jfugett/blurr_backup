@@ -41,129 +41,131 @@ var generator = function generator(gulp, errorHandler){
         
         // attaches the errorHandler to the streams
         combined.on('error', errorHandler);
+        
+        return combined;
     };
 
     // shortcut method that will run all of the jsHint tasks
     jsHint.all = function all(){
         // these run in parallel, that's the reason for the array notation
-        runSequence([
-            'jsHintGulp',
-            'jsHintApp',
-            'jsHintClient',
-            'jsHintWorker',
-            'jsHintAPITests',
-            'jsHintAPPTests',
-            'jsHintClientTests',
-            'jsHintCPUTests',
-            'jsHintE2ETests',
-            'jsHintLoadTests',
-            'jsHintMemoryTests',
-            'jsHintPerformanceTests',
-            'jsHintWorkerTests'
+        return runSequence([
+            '_jsHintGulp',
+            '_jsHintApp',
+            '_jsHintClient',
+            '_jsHintWorker',
+            '_jsHintAPITests',
+            '_jsHintAPPTests',
+            '_jsHintClientTests',
+            '_jsHintCPUTests',
+            '_jsHintE2ETests',
+            '_jsHintLoadTests',
+            '_jsHintMemoryTests',
+            '_jsHintPerformanceTests',
+            '_jsHintWorkerTests'
         ]);
     };
     
     // assigns the task to gulp
-    gulp.task('jsHintAll', jsHint.all);
+    gulp.task('_jsHintAll', jsHint.all);
     
     // handles the gulpfile and configs
     jsHint.gulp = function gulp(){
-        jsHintFileRunner(paths.gulpScripts);
+        return jsHintFileRunner(paths.gulp);
     };
     
-    gulp.task('jsHintGulp', jsHint.gulp);
+    gulp.task('_jsHintGulp', jsHint.gulp);
     
     // handles the application files
     jsHint.app = function gulp(){
-        jsHintFileRunner(paths.appScripts);
+        return jsHintFileRunner(paths.app);
     };
     
-    gulp.task('jsHintApp', jsHint.app);
+    gulp.task('_jsHintApp', jsHint.app);
     
     // handles the client scripts
     jsHint.client = function client(){
-        jsHintFileRunner(paths.clientScripts);
+        return jsHintFileRunner(paths.client);
     };
     
-    gulp.task('jsHintClient', jsHint.client);
+    gulp.task('_jsHintClient', jsHint.client);
     
     // handles any worker scripts
     jsHint.worker = function worker(){
-        jsHintFileRunner(paths.workerScripts);
+        return jsHintFileRunner(paths.workers);
     };
     
-    gulp.task('jsHintWorker', jsHint.worker);
+    gulp.task('_jsHintWorker', jsHint.worker);
     
     // handles the api test cases
     jsHint.apiTests = function apiTests(){
-        jsHintFileRunner(paths.apiTests);
+        return jsHintFileRunner(paths.apiTests);
     };
     
-    gulp.task('jsHintAPITests', jsHint.apiTests);
+    gulp.task('_jsHintAPITests', jsHint.apiTests);
     
     // handles the application test cases
     jsHint.appTests = function appTests(){
-        jsHintFileRunner(paths.appTests);
+        return jsHintFileRunner(paths.appTests);
     };
     
-    gulp.task('jsHintAPPTests', jsHint.appTests);
+    gulp.task('_jsHintAPPTests', jsHint.appTests);
     
     // handles the client test cases
     jsHint.clientTests = function clientTests(){
-        jsHintFileRunner(paths.clientTests);
+        return jsHintFileRunner(paths.clientTests);
     };
     
-    gulp.task('jsHintClientTests', jsHint.clientTests);
+    gulp.task('_jsHintClientTests', jsHint.clientTests);
     
     // handles the cpu tests
     jsHint.cpuTests = function cpuTests(){
-        jsHintFileRunner(paths.cpuTests);
+        return jsHintFileRunner(paths.cpuTests);
     };
     
-    gulp.task('jsHintCPUTests', jsHint.cpuTests);
+    gulp.task('_jsHintCPUTests', jsHint.cpuTests);
     
     // handles the end to end tests
     jsHint.e2eTests = function e2eTests(){
-        jsHintFileRunner(paths.e2eTests);
+        return jsHintFileRunner(paths.e2eTests);
     };
     
-    gulp.task('jsHintE2ETests', jsHint.e2eTests);
+    gulp.task('_jsHintE2ETests', jsHint.e2eTests);
     
     // handles the load tests
     jsHint.loadTests = function loadTests(){
-        jsHintFileRunner(paths.loadTests);
+        return jsHintFileRunner(paths.loadTests);
     };
     
-    gulp.task('jsHintLoadTests', jsHint.loadTests);
+    gulp.task('_jsHintLoadTests', jsHint.loadTests);
     
     // handles the memory tests
     jsHint.memoryTests = function memoryTests(){
-        jsHintFileRunner(paths.memoryTests);
+        return jsHintFileRunner(paths.memoryTests);
     };
     
-    gulp.task('jsHintMemoryTests', jsHint.memoryTests);
+    gulp.task('_jsHintMemoryTests', jsHint.memoryTests);
     
     // handles the performance tests
     jsHint.performanceTests = function performanceTests(){
-        jsHintFileRunner(paths.performanceTests);
+        return jsHintFileRunner(paths.performanceTests);
     };
     
-    gulp.task('jsHintPerformanceTests', jsHint.performanceTests);
+    gulp.task('_jsHintPerformanceTests', jsHint.performanceTests);
     
     // handles the worker tests
     jsHint.workerTests = function workerTests(){
-        jsHintFileRunner(paths.workerTests);
+        return jsHintFileRunner(paths.workersTests);
     };
     
-    gulp.task('jsHintWorkerTests', jsHint.workerTests);
+    gulp.task('_jsHintWorkerTests', jsHint.workerTests);
 
     // this task opens the jshint.html file in the browser
     jsHint.open = function jsHintOpen(){
-        gulp.src(reporter.outputFile)
+        return gulp.src(reporter.outputFile)
             .pipe(browserOpen('<%= file.path %>', {app: 'chrome'}));
     };
     
-    gulp.task('jsHintOpen', jsHint.open);
+    gulp.task('_jsHintOpen', jsHint.open);
     
     // return the object in case we need to reuse it later or call any of the methods from another file
     return jsHint;

@@ -1,13 +1,7 @@
-'use strict';
-
-var jasmine = require('gulp-jasmine');
-var combine = require('stream-combiner');
 var coverageEnforcer = require('gulp-istanbul-enforcer');
 var istanbul = require('gulp-istanbul');
 var gulpOpen = require('gulp-open');
-var paths = require('./paths');
 var clean = require('gulp-clean');
-var runSequence = require('run-sequence')
 var fs = require('fs');
 
 var generator = function generator(gulp, errorHandler){

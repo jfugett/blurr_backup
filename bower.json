@@ -1,0 +1,24 @@
+{
+  "name": "Blurr",
+  "version": "0.0.5",
+  "homepage": "https://github.com/jfugett/blurr",
+  "authors": [
+    "Joshwa Fugett <jfugett27@gmail.com>"
+  ],
+  "description": "Build applications so fast everybody else will see a blurr",
+  "main": "app/index.js",
+  "moduleType": [
+    "es6",
+    "globals",
+    "node"
+  ],
+  "license": "Private",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}

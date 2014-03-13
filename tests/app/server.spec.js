@@ -1,12 +1,7 @@
 'use strict';
 
-var basePath = '../../app/';
-
-delete require.cache[require.resolve(basePath + 'server')];
-var server = require(basePath + 'server');
-
-describe('Server Test', function(){
-    it('Should be 2.', function(){
-        expect(server.server).toBe(2);
-    });
+describe('A suite', function() {
+  it('contains spec with an expectation', function testAssertions() {
+    expect(true).toBe(false);
+  });
 });

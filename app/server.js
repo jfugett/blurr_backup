@@ -1,8 +1,10 @@
 'use strict';
 
-module.exports = {
-    server: 2,
+var server = {
+    serverCount: 1,
     getServer: function getServer(){
-        return this.server;
+        return 2;
     }
 };
+
+return server;

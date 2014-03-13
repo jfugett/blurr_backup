@@ -1,19 +1,21 @@
 'use strict';
 
 var paths = {
-    'gulpScripts': ['gulpfile.js', 'gulp_config/**/*.js'],
-    'appScripts': ['app/**/*.js'],
-    'clientScripts': ['client/**/*.js'],
-    'workerScripts': ['workers/**/*.js'],
-    'apiTests': ['tests/api/**/*.js'],
-    'appTests': ['tests/app/**/*.js'],
-    'clientTests': ['tests/client/**/*.js'],
-    'cpuTests': ['tests/cpu/**/*.js'],
-    'e2eTests': ['tests/e2e/**/*.js'],
-    'loadTests': ['tests/load/**/*.js'],
-    'memoryTests': ['tests/memory/**/*.js'],
-    'performanceTests': ['tests/performance/**/*.js'],
-    'workerTests': ['tests/workers/**/*.js']
+    jsHintResults: 'test_results/**/jshint.html',
+    app: 'app/**/*.js',
+    client: 'client/**/*.js',
+    gulp: ['gulpfile.js', 'gulp_config/**/*.js'],
+    workers: 'workers/**/*.js',
+    apiTests: 'tests/api/**/*.spec.js',
+    appTests: 'tests/app/**/*.spec.js',
+    clientTests: 'tests/client/**/*.spec.js',
+    cpuTests: 'tests/cpu/**/*.spec.js',
+    e2eTests: 'tests/e2e/**/*.spec.js',
+    gulpTests: 'tests/gulp/**/*.spec.js',
+    loadTests: 'tests/load/**/*.spec.js',
+    memoryTests: 'tests/memory/**/*.spec.js',
+    performanceTests: 'tests/performance/**/*.spec.js',
+    workersTests: 'tests/workers/**/*.spec.js'
 };
 
 module.exports = paths;

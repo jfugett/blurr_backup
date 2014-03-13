@@ -22,15 +22,13 @@ var generator = function generator(gulp, errorHandler){
         );
         
         combined.on('error', errorHandler);
-        
-        return combined;
     };
     
     // create our base object here
     var tests = {};
     
     tests.all = function all(){
-        return runSequence(
+        runSequence(
             '_unitTestsApp',
             '_unitTestsClient',
             '_unitTestsGulp',
@@ -41,25 +39,25 @@ var generator = function generator(gulp, errorHandler){
     gulp.task('_unitTestsAll', tests.all);
 
     tests.app = function app(){
-        return taskRunner(paths.appTests);
+        taskRunner(paths.appTests);
     };
     
     gulp.task('_unitTestsApp', tests.app);
     
     tests.client = function client(){
-        return taskRunner(paths.clientTests);
+        taskRunner(paths.clientTests);
     };
     
     gulp.task('_unitTestsClient', tests.client);
     
     tests.gulp = function gulp(){
-        return taskRunner(paths.gulpTests);
+        taskRunner(paths.gulpTests);
     };
     
     gulp.task('_unitTestsGulp', tests.gulp);
     
     tests.workers = function workers(){
-        return taskRunner(paths.workersTests);
+        taskRunner(paths.workersTests);
     };
     
     gulp.task('_unitTestsWorkers', tests.workers);

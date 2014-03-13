@@ -1,10 +1,7 @@
 'use strict';
 
-// include our test runner
-var jasmine = require('gulp-jasmine');
-
-// include stream-combiner for easier handling of streams and errors
-var combine = require('stream-combiner');
+// include our testing framework
+var mocha = require('gulp-mocha');
 
 // include our application paths
 var paths = require('./paths');
@@ -14,21 +11,23 @@ var runSequence = require('run-sequence');
 
 // this is a wrapper so that the needed dependencies can be passed in
 var generator = function generator(gulp, errorHandler){
-    // this is our jasmine unit test task runner
+
+    // this is our mocha unit test task runner
     var taskRunner = function(src){
-        var combined = combine(
-            gulp.src(src),
-            jasmine()
-        );
-        
-        combined.on('error', errorHandler);
+        // we have to handle this stream in this manner do to oddities in the way mocha works
+        return gulp.src(src, {read: false})
+            .pipe(mocha({ ui: 'bdd', reporter: 'list', bail: false }))
+            .on('error', function(error){
+                errorHandler(error);
+            });
     };
     
     // create our base object here
     var tests = {};
     
+    // this is just a shorthand for running all of the unit tests at once
     tests.all = function all(){
-        runSequence(
+        return runSequence(
             '_unitTestsApp',
             '_unitTestsClient',
             '_unitTestsGulp',
@@ -38,26 +37,30 @@ var generator = function generator(gulp, errorHandler){
     
     gulp.task('_unitTestsAll', tests.all);
 
+    // this runs the unit tests for the main app
     tests.app = function app(){
-        taskRunner(paths.appTests);
+        return taskRunner(paths.appTests);
     };
     
     gulp.task('_unitTestsApp', tests.app);
     
+    // this runs the unit tests for the client
     tests.client = function client(){
-        taskRunner(paths.clientTests);
+        return taskRunner(paths.clientTests);
     };
     
     gulp.task('_unitTestsClient', tests.client);
     
+    // this runs the unit tests for gulp
     tests.gulp = function gulp(){
-        taskRunner(paths.gulpTests);
+        return taskRunner(paths.gulpTests);
     };
     
     gulp.task('_unitTestsGulp', tests.gulp);
     
+    // this runs the unit tests for the workers
     tests.workers = function workers(){
-        taskRunner(paths.workersTests);
+        return taskRunner(paths.workersTests);
     };
     
     gulp.task('_unitTestsWorkers', tests.workers);

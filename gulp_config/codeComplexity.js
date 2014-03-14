@@ -40,13 +40,11 @@ var generator = function generator(gulp, errorHandler){
                     format: '',
                     newmi: true
                 }
+            }).on('end', function(){
+                gulp.src(dest)
+                    .pipe(browserOpener(dest + 'index.html', {app: 'chrome'}));
             })
         );
-        
-        combined.on('end', function(){
-            gulp.src(dest)
-                .pipe(browserOpener(dest + 'index.html', {app: 'chrome'}));
-        });
         
         combined.on('error', errorHandler);
         

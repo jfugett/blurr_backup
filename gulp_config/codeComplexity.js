@@ -1,5 +1,5 @@
 'use strict';
-var gdebug = require('gulp-debug');
+
 // include our code complexity report generator
 var plato = require('gulp-plato');
 
@@ -42,7 +42,6 @@ var generator = function generator(gulp, errorHandler){
                 }
             }).on('end', function(){
                 gulp.src(dest + 'index.html')
-                    .pipe(gdebug())
                     .pipe(browserOpener(dest + 'index.html', {app: 'chrome'}));
             })
         );

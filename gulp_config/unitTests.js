@@ -55,9 +55,11 @@ var generator = function generator(gulp, errorHandler){
             cover.format({
                 reporter: 'html',
             }),
-            gulp.dest(dest),
+            gulp.dest(dest).on('end', function(){
+                return gulp.src(dest + 'coverage.html', false)
+                    .pipe(browserOpener(dest + 'coverage.html', {app: 'chrome'}));
+            })
 //            cover.enforce(enforcementOptions),
-            browserOpener(dest + 'coverage.html', {app: 'chrome'})
         );
         
         combined.on('error', errorHandler);

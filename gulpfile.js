@@ -47,6 +47,7 @@ gulp.task('test', function test(){
     return runSequence(
         '_cleanTests',
         '_jsHintAll',
+        '_jsHintOpen',
         '_unitTestsAll',
         '_complexityReportAll',
         function testFinishedNotifier(){

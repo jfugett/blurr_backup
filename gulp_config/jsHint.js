@@ -167,13 +167,13 @@ var generator = function generator(gulp, errorHandler){
     
     gulp.task('_jsHintWorkerTests', jsHint.workerTests);
 
-/*    // this task opens the jshint.html file in the browser
+    // this task opens the jshint.html file in the browser
     jsHint.open = function jsHintOpen(){
         return gulp.src(reporter.outputFile)
             .pipe(browserOpen('<%= file.path %>', {app: 'chrome'}));
     };
     
-    gulp.task('_jsHintOpen', jsHint.open);*/
+    gulp.task('_jsHintOpen', jsHint.open);
     
     // return the object in case we need to reuse it later or call any of the methods from another file
     return jsHint;

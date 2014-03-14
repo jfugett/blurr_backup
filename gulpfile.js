@@ -47,7 +47,9 @@ gulp.task('test', function test(){
     return runSequence(
         '_cleanTests',
         '_jsHintAll',
+        '_jsHintOpen',
         '_unitTestsAll',
+        '_complexityReportAll',
         function testFinishedNotifier(){
             notifyHandler('Tests Finished Running', 'The tests have completed successfully');
         }
@@ -87,4 +89,5 @@ require('./gulp_config/jsHint')(gulp, errorHandler);
 // include our unit test tasks here
 require('./gulp_config/unitTests')(gulp, errorHandler);
 
-module.exports = gulp;
+// include our code complexity tasks here
+require('./gulp_config/codeComplexity')(gulp, errorHandler);

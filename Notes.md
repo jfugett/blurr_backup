@@ -1,8 +1,7 @@
     "async": "^0.2.10",
     "lodash": "^2.4.1",
     "mongoose": "^3.8.8",
-    "express": "^4.0.0-rc2"
-
+    "express": "^4.0.0-rc2",
     "gulp-if": "0.0.5",
     "gulp-watch": "^0.5.2",
     "gulp-exec": "^1.0.4",
@@ -11,12 +10,10 @@
     "gulp-clean": "^0.2.4",
     "gulp-minify-css": "^0.3.0",
     "gulp-rename": "^1.2.0"
-
     "gulp-sloc": "^1.0.3",
     "gulp-mversion": "^0.1.0",
     "gulp-prompt": "^0.1.0",
     "gulp-todo": "^0.1.5",
-    "gulp-plato": "^0.2.1",
 
 ** make sure that watches don't break but everything else does
 
@@ -116,7 +113,6 @@ test - when running tests
     Better to use a server for gulp-open and then attach live-reload to it
 
 client javascript
-    code complexity
     integration tests
     e2e tests
     performance tests
@@ -127,7 +123,6 @@ client javascript
     phantomjs browser testing
     slimerjs browser testing
 server javascript
-    code complexity
     integration tests
     api tests
     e2e tests
@@ -140,7 +135,6 @@ client less
 client css
     css lint
 workers
-    code complexity
     integration tests
     api tests
     e2e tests

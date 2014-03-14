@@ -38,6 +38,7 @@
     "gulp-open": "^0.2.8",
     "gulp-jasmine": "^0.2.0",
     "gulp-mocha": "^0.4.1",
-    "gulp-coverage": "^0.1.20"
+    "gulp-coverage": "^0.1.20",
+    "gulp-plato": "^0.2.1"
   }
 }

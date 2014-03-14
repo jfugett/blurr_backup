@@ -17,7 +17,7 @@ var outerTemplate = fs.readFileSync('./gulp_config/reporterOuterTemplate.html');
 
 var jsHintReporter = {
     // this is where the output will be sent
-    outputFile: './test_results/jshint.html',
+    outputFile: './test_results/jsHint.html',
 
     // this function is used to write the output to the destination
     writeOutput: function writeOutput(output){

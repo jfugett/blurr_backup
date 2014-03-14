@@ -12,14 +12,12 @@ var mocha = require('gulp-mocha');
 // can't use jasmine for now since it won't fail the build
 // @todo Fork gulp-jasmine, fix exit code option, and submit a pull request
 //var jasmine = require('gulp-jasmine');
-
 // include our application paths
 var paths = require('./paths');
 
 // include run-sequence for order management
 var runSequence = require('run-sequence');
 
-// @todo Make this use a server instead and apply live-reload to it
 // include our browser opener task
 var browserOpener = require('gulp-open');
 

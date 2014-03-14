@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Plato - _config/unitTests.js</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <!--[if lt IE 9]>
+  <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+
+  <link href="../../assets/css/vendor/morris.css" rel="stylesheet">
+  <link href="../../assets/css/vendor/bootstrap.css" rel="stylesheet">
+  <link href="../../assets/css/vendor/font-awesome.css" rel="stylesheet">
+  <link href="../../assets/css/vendor/font-awesome-ie7.css" rel="stylesheet">
+  <link href="../../assets/css/vendor/codemirror.css" rel="stylesheet">
+  <link href="../../assets/css/plato.css" rel="stylesheet">
+  <link href="../../assets/css/plato-file.css" rel="stylesheet">
+
+</head>
+
+<body>
+
+<div class="navbar navbar-fixed-top">
+  <div class="container">
+    <a class="navbar-brand" href="http://github.com/es-analysis/plato">Plato on Github</a>
+    <ul class="nav navbar-nav">
+      <li>
+        <a href="../../index.html">Report Home</a>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<div class="jumbotron">
+  <div class="container">
+    <h1>_config/unitTests.js</h1>
+  </div>
+</div>
+
+<div class="container aggregate-stats">
+  <div class="row">
+    <div class="col-md-6">
+      <h2 class="header">Maintainability <a href="http://blogs.msdn.com/b/codeanalysis/archive/2007/11/20/maintainability-index-range-and-meaning.aspx"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="A value between 0 and 100 that represents the relative ease of maintaining the code. A high value means better maintainability." data-original-title="Maintainability Index"  data-container="body"></i></a></h2>
+      <p class="stat">72.32</p>
+    </div>
+    <div class="col-md-6">
+      <h2 class="header">Lines of code <i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Source Lines of Code / Logical Lines of Code" data-original-title="SLOC/LSLOC" data-container="body"></i></h2>
+      <p class="stat">116</p>
+    </div>
+  </div>
+  <div class="row historical">
+    <div class="col-md-6">
+      <p id="chart_historical_maint" class="chart"></p>
+    </div>
+    <div class="col-md-6">
+      <p id="chart_historical_sloc" class="chart"></p>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+      <h2 class="header">Difficulty  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="The difficulty measure is related to the difficulty of the program to write or understand." data-original-title="Difficulty" data-container="body"></i></a></h2>
+      <p class="stat">11.04</p>
+    </div>
+    <div class="col-md-6">
+      <h2 class="header">Estimated Errors  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Halstead's delivered bugs is an estimate for the number of errors in the implementation." data-original-title="Delivered Bugs" data-container="body"></i></a></h2>
+      <p class="stat">0.57</p>
+    </div>
+  </div>
+</div>
+
+<div class="container charts">
+  <div class="row">
+    <h2 class="header">Function weight</h2>
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+      <h3 class="chart-header">By Complexity <a href="http://en.wikipedia.org/wiki/Cyclomatic_complexity"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="This metric counts the number of distinct paths through a block of code. Lower values are better." data-original-title="Cyclomatic Complexity" data-container="body"></i></a></h3>
+      <div id="fn-by-complexity" class="stat"></div>
+    </div>
+    <div class="col-md-6">
+      <h3 class="chart-header">By SLOC  <i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Source Lines of Code / Logical Lines of Code" data-original-title="SLOC/LSLOC" data-container="body"></i></h3>
+      <div id="fn-by-sloc" class="stat"></div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="row">
+    <textarea id="file-source" class="col-md-12">&#039;use strict&#039;;
+
+//var gdebug = require(&#039;gulp-debug&#039;);
+var combine = require(&#039;stream-combiner&#039;);
+
+// include our code coverage tool
+var cover = require(&#039;gulp-coverage&#039;);
+
+// include our testing framework
+var mocha = require(&#039;gulp-mocha&#039;);
+
+// can&#039;t use jasmine for now since it won&#039;t fail the build
+// @todo Fork gulp-jasmine, fix exit code option, and submit a pull request
+//var jasmine = require(&#039;gulp-jasmine&#039;);
+// include our application paths
+var paths = require(&#039;./paths&#039;);
+
+// include run-sequence for order management
+var runSequence = require(&#039;run-sequence&#039;);
+
+// include our browser opener task
+var browserOpener = require(&#039;gulp-open&#039;);
+
+// this is a wrapper so that the needed dependencies can be passed in
+var generator = function generator(gulp, errorHandler){
+
+    // include our cleaner library so that we can clean the coverage directories
+    // we include it here as it needs access to gulp and the errorHandler
+    var cleaner = require(&#039;./clean&#039;)(gulp, errorHandler);
+
+    // this is our mocha unit test task runner
+    var taskRunner = function(code, tests, dest){
+        // here we make sure that we clean the coverage results
+        cleaner.cleanPath(dest + &#039;coverage.html&#039;);
+        
+        // @todo Re-enable the enforcement
+//        var enforcementOptions = {
+//            statements: 100,
+//            blocks: 100,
+//            lines: 100
+//        };
+        
+        var combined = combine(
+            gulp.src(tests),
+            cover.instrument({
+                pattern: code,
+                debugDirectory: &#039;coverage&#039;
+            }),
+            mocha({
+                ui: &#039;bdd&#039;,
+                bail: true,
+                reporter: &#039;spec&#039;
+            }),
+            cover.gather(),
+            cover.format({
+                reporter: &#039;html&#039;,
+            }),
+            gulp.dest(dest),
+//            cover.enforce(enforcementOptions),
+            browserOpener(dest + &#039;coverage.html&#039;, {app: &#039;chrome&#039;})
+        );
+        
+        combined.on(&#039;error&#039;, errorHandler);
+        
+        return combined;
+    };
+    
+    // create our base object here
+    var tests = {};
+    
+    // this is just a shorthand for running all of the unit tests at once
+    tests.all = function all(){
+        return runSequence(
+            &#039;_unitTestsApp&#039;,
+            &#039;_unitTestsClient&#039;,
+            &#039;_unitTestsGulp&#039;,
+            &#039;_unitTestsWorkers&#039;
+        );
+    };
+    
+    gulp.task(&#039;_unitTestsAll&#039;, tests.all);
+
+    // this runs the unit tests for the main app
+    tests.app = function app(){
+        return taskRunner(paths.app, paths.appTests, paths.appCoverage);
+    };
+    
+    gulp.task(&#039;_unitTestsApp&#039;, tests.app);
+    
+    // this runs the unit tests for the client
+    tests.client = function client(){
+        return taskRunner(paths.client, paths.clientTests, paths.clientCoverage);
+    };
+    
+    gulp.task(&#039;_unitTestsClient&#039;, tests.client);
+    
+    // this runs the unit tests for gulp
+    tests.gulp = function gulp(){
+        return taskRunner(paths.gulp, paths.gulpTests, paths.gulpCoverage);
+    };
+    
+    gulp.task(&#039;_unitTestsGulp&#039;, tests.gulp);
+    
+    // this runs the unit tests for the workers
+    tests.workers = function workers(){
+        return taskRunner(paths.workers, paths.workersTests, paths.workersCoverage);
+    };
+    
+    gulp.task(&#039;_unitTestsWorkers&#039;, tests.workers);
+    
+    // return our object in case it needs to be reused
+    return tests;
+};
+
+// return our generator so it can be passed in the needed dependencies
+module.exports = generator;</textarea>
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="container">
+    <p>.</p>
+  </div>
+</footer>
+
+<script type="text/html" id="complexity-popover-template">
+  <div class="complexity-notice">
+    Complexity : {{ complexity.cyclomatic }} <br>
+    Length : {{ complexity.halstead.length }} <br>
+    Difficulty : {{ complexity.halstead.difficulty.toFixed(2) }} <br>
+    Est # bugs : {{ complexity.halstead.bugs.toFixed(2) }}<br>
+  </div>
+</script>
+
+<script type="text/javascript" src="../../assets/scripts/bundles/core-bundle.js"></script>
+<script type="text/javascript" src="../../assets/scripts/bundles/codemirror.js"></script>
+<script type="text/javascript" src="../../assets/scripts/codemirror.markpopovertext.js"></script>
+<script type="text/javascript" src="report.js"></script>
+<script type="text/javascript" src="report.history.js"></script>
+<script type="text/javascript" src="../../assets/scripts/plato-file.js"></script>
+</body>
+</html>

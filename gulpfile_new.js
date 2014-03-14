@@ -1,12 +1,5 @@
-// the default task when no task is specified, it just passes control to dev
-gulp.task('default', function defaultTask(){
-    gulp.start('dev');
-});
-
 // the task that should be run for developers
 gulp.task('dev', function dev(){
-    notifyHandler('Starting Development Environment', 'Please be patient we\'ll have you up and running in no time');
-    
     runSequence(
         'build',
         'watchFiles',
@@ -18,40 +11,18 @@ gulp.task('dev', function dev(){
 
 // the task that will run all of the base tests
 gulp.task('test', function test(){
-    notifyHandler('Running Tests', 'We\'re running the tests to make sure nothing broke please bear with us');
-    
     runSequence(
         'lessLint',
-        function testFinishedNotifier(){
-            notifyHandler('Tests Finished Running', 'The tests have completed successfully');
-        }
     );
 });
 
 // the task to build the application from its sources
 gulp.task('build', function build(){
-    notifyHandler('Building Application Files', 'We\'re building the application files please bear with us');
     
     runSequence(
         'cleanBuild',
-        'test',
         'lessCompile',
         'changeLog',
-        function buildCompletedNotifier(){
-            notifyHandler('Build Complete', 'The application is now built and ready to be run');
-        }
-    );
-});
-
-// the task to deploy the codebase to staging/production
-gulp.task('deploy', function deploy(){
-    notifyHandler('Preparing for Deployment', 'The deploy process is starting, please bear with us');
-    
-    runSequence(
-        'build',
-        function deployCompletedNotifier(){
-            notifyHandler('Deployment Complete', 'We have finished deploying the build');
-        }
     );
 });
 

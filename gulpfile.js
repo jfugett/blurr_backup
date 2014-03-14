@@ -25,7 +25,7 @@ var errorHandler = require('./gulp_config/errorHandler')(reporterFunction, true)
 //var watchErrorHandler = require('./gulp_config/errorHandler')(reporterFunction, false);
 
 // setup a notification handler to avoid repitition
-//var notifyHandler = require('./gulp_config/notifyHandler')(reporterFunction);
+var notifyHandler = require('./gulp_config/notifyHandler')(reporterFunction);
 
 // get the type of build
 require('./gulp_config/buildType')(gulp);
@@ -37,30 +37,45 @@ gulp.task('default', function defaultHandler(){
 
 // this is the development environment task
 gulp.task('dev', function dev(){
-    
+    notifyHandler('Starting Development Environment', 'Please be patient we\'ll have you up and running in no time');
 });
 
 // this task is run to test the application
 gulp.task('test', function test(){
+    notifyHandler('Running Tests', 'We\'re running the tests to make sure nothing broke please bear with us');
+
     return runSequence(
         '_cleanTests',
         '_jsHintAll',
         '_jsHintOpen',
-        '_unitTestsAll'
+        '_unitTestsAll',
+        function testFinishedNotifier(){
+            notifyHandler('Tests Finished Running', 'The tests have completed successfully');
+        }
     );
 });
 
 // this task is run to build the application
 gulp.task('build', function build(){
+    notifyHandler('Building Application Files', 'We\'re building the application files please bear with us');
+
     return runSequence(
-        'test'
+        'test',
+        function buildCompletedNotifier(){
+            notifyHandler('Build Complete', 'The application is now built and ready to be run');
+        }
     );
 });
 
 // this task is run to deploy the application
 gulp.task('deploy', function deploy(){
+    notifyHandler('Preparing for Deployment', 'The deploy process is starting, please bear with us');
+
     return runSequence(
-        'build'
+        'build',
+        function deployCompletedNotifier(){
+            notifyHandler('Deployment Complete', 'We have finished deploying the build');
+        }
     );
 });
 
@@ -72,3 +87,5 @@ require('./gulp_config/jsHint')(gulp, errorHandler);
 
 // include our unit test tasks here
 require('./gulp_config/unitTests')(gulp, errorHandler);
+
+module.exports = gulp;

@@ -18,10 +18,9 @@ var generator = function generator(gulp, errorHandler){
     var cleaner = {};
     
     // wrapper method that allows us to clean all of the test files at once
-    cleaner.tests = function tests(callback){
+    cleaner.tests = function tests(){
         return runSequence(
-            '_cleanJSHint',
-            callback
+            '_cleanJSHint'
         );
     };
     
@@ -35,11 +34,19 @@ var generator = function generator(gulp, errorHandler){
         );
         
         combined.on('error', errorHandler);
-        
-        return combined;
     };
     
     gulp.task('_cleanJSHint', cleaner.JSHint);
+    
+    // this task cleans out a specific path and is meant to be reused by other tasks
+    cleaner.cleanPath = function cleanPath(path){
+        var combined = combine(
+            gulp.src(path),
+            clean()
+        );
+        
+        combined.on('error', errorHandler);
+    };
 
     // return our cleaner object in case it needs to be used anywhere else
     return cleaner;

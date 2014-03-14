@@ -1,8 +1,11 @@
+/* globals describe, it */
 'use strict';
+var server = require('../../app/server.js');
+
 var assert = require('assert');
 
-describe('A suite', function(){
-  it('contains spec with an expectation', function testAssertions(){
-assert.equal(1, [1,2,3].indexOf(4));
-  });
+describe('Server', function(){
+    it('Should have a value', function(){
+        assert.equal(server.value, 2, 'of two');
+    });
 });

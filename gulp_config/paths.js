@@ -15,7 +15,11 @@ var paths = {
     loadTests: 'tests/load/**/*.spec.js',
     memoryTests: 'tests/memory/**/*.spec.js',
     performanceTests: 'tests/performance/**/*.spec.js',
-    workersTests: 'tests/workers/**/*.spec.js'
+    workersTests: 'tests/workers/**/*.spec.js',
+    appCoverage: 'test_results/app/',
+    clientCoverage: 'test_results/client/',
+    gulpCoverage: 'test_results/gulp/',
+    workersCoverage: 'test_results/workers/'
 };
 
 module.exports = paths;

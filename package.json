@@ -20,6 +20,9 @@
   },
   "homepage": "https://github.com/jfugett/blurr",
   "private": true,
+  "dependencies": {
+    "lodash": "^2.4.1"
+  },
   "devDependencies": {
     "gulp": "^3.5.5",
     "gulp-task-listing": "^0.2.2",
@@ -34,9 +37,7 @@
     "jshint-stylish": "^0.1.5",
     "gulp-open": "^0.2.8",
     "gulp-jasmine": "^0.2.0",
-    "gulp-mocha": "^0.4.1"
-  },
-  "dependencies": {
-    "lodash": "^2.4.1"
+    "gulp-mocha": "^0.4.1",
+    "gulp-coverage": "^0.1.20"
   }
 }

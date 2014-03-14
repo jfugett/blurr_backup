@@ -17,8 +17,6 @@
     "gulp-prompt": "^0.1.0",
     "gulp-todo": "^0.1.5",
     "gulp-plato": "^0.2.1",
-    "gulp-istanbul-enforcer": "^1.0.2",
-    "gulp-istanbul": "^0.1.1",
 
 ** make sure that watches don't break but everything else does
 
@@ -118,7 +116,6 @@ test - when running tests
     Better to use a server for gulp-open and then attach live-reload to it
 
 client javascript
-    code coverage + enforcement
     code complexity
     integration tests
     e2e tests
@@ -130,7 +127,6 @@ client javascript
     phantomjs browser testing
     slimerjs browser testing
 server javascript
-    code coverage + enforcement
     code complexity
     integration tests
     api tests
@@ -144,8 +140,6 @@ client less
 client css
     css lint
 workers
-    same as server side but we have to realize that most of these probably won't be node but for those that are :)
-    code coverage + enforcement
     code complexity
     integration tests
     api tests

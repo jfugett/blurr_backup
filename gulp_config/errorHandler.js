@@ -22,8 +22,8 @@ var generator = function generator(reporterFunction, reThrow){
         
         reporterFunction(options, function reporterFunctionCallback(){
             if(reThrow){
-                // throw the error again here so we interrupt the application but still get the notification 
-                throw error;
+                // kill the running process with the proper exit code for travis-ci
+                process.exit(1);
             } else {
                 // don't rethrow the error (only used by watch tasks or tasks that we don't mind failing)
                 return true;

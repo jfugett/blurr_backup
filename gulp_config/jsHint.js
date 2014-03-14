@@ -58,6 +58,7 @@ var generator = function generator(gulp, errorHandler){
             '_jsHintClientTests',
             '_jsHintCPUTests',
             '_jsHintE2ETests',
+            '_jsHintGulpTests',
             '_jsHintLoadTests',
             '_jsHintMemoryTests',
             '_jsHintPerformanceTests',
@@ -130,6 +131,13 @@ var generator = function generator(gulp, errorHandler){
     };
     
     gulp.task('_jsHintE2ETests', jsHint.e2eTests);
+    
+    // handles the gulp tests
+    jsHint.gulpTests = function gulpTests(){
+        return jsHintFileRunner(paths.gulpTests);
+    };
+    
+    gulp.task('_jsHintGulpTests', jsHint.gulpTests);
     
     // handles the load tests
     jsHint.loadTests = function loadTests(){

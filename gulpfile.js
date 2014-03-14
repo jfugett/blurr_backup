@@ -47,10 +47,10 @@ gulp.task('test', function test(){
     return runSequence(
         '_cleanTests',
         '_jsHintAll',
-        '_jsHintOpen',
         '_unitTestsAll',
         '_complexityReportAll',
         function testFinishedNotifier(){
+            gulp.start('_jsHintOpen');
             notifyHandler('Tests Finished Running', 'The tests have completed successfully');
         }
     );

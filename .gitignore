@@ -12,6 +12,8 @@ lib-cov
 .coverrun
 
 pids
+coverage
+.coverdata
 
 .DS_Store
 thumbs.db

@@ -47,7 +47,6 @@ gulp.task('test', function test(){
     return runSequence(
         '_cleanTests',
         '_jsHintAll',
-        '_jsHintOpen',
         '_unitTestsAll',
         function testFinishedNotifier(){
             notifyHandler('Tests Finished Running', 'The tests have completed successfully');

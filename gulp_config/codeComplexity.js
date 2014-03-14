@@ -47,8 +47,6 @@ var generator = function generator(gulp, errorHandler){
         );
         
         combined.on('error', errorHandler);
-        
-        return combined;
     };
     
     // this is a shortcut method that allows us to run all of the complexity reports
@@ -74,98 +72,98 @@ var generator = function generator(gulp, errorHandler){
     
     // this runs the complexity report on our application files
     complexityReport.app = function app(){
-        return taskRunner(paths.app, paths.appComplexityReport);
+        taskRunner(paths.app, paths.appComplexityReport);
     };
     
     gulp.task('_complexityReportApp', complexityReport.app);
 
     // this runs the complexity report on our client files    
     complexityReport.client = function client(){
-        return taskRunner(paths.client, paths.clientComplexityReport);
+        taskRunner(paths.client, paths.clientComplexityReport);
     };
     
     gulp.task('_complexityReportClient', complexityReport.client);
     
     // this runs the complexity report on our gulp fiels
     complexityReport.gulp = function gulp(){
-        return taskRunner(paths.gulp, paths.gulpComplexityReport);
+        taskRunner(paths.gulp, paths.gulpComplexityReport);
     };
     
     gulp.task('_complexityReportGulp', complexityReport.gulp);
     
     // this runs the complexity report on our workers files
     complexityReport.workers = function workers(){
-        return taskRunner(paths.workers, paths.workersComplexityReport);
+        taskRunner(paths.workers, paths.workersComplexityReport);
     };
     
     gulp.task('_complexityReportWorkers', complexityReport.workers);
     
     // this runs the complexity report on our api tests
     complexityReport.apiTests = function apiTests(){
-        return taskRunner(paths.apiTests, paths.apiTestsComplexityReport);
+        taskRunner(paths.apiTests, paths.apiTestsComplexityReport);
     };
     
     gulp.task('_complexityReportApiTests', complexityReport.apiTests);
     
     // this runs the complexity report on our app tests
     complexityReport.appTests = function appTests(){
-        return taskRunner(paths.appTests, paths.appTestsComplexityReport);
+        taskRunner(paths.appTests, paths.appTestsComplexityReport);
     };
     
     gulp.task('_complexityReportAppTests', complexityReport.appTests);
     
     // this runs the complexity report for our client tests
     complexityReport.clientTests = function clientTests(){
-        return taskRunner(paths.clientTests, paths.clientTestsComplexityReport);
+        taskRunner(paths.clientTests, paths.clientTestsComplexityReport);
     };
     
     gulp.task('_complexityReportClientTests', complexityReport.clientTests);
     
     // this runs the complexity report for our cpu tests
     complexityReport.cpuTests = function cpuTests(){
-        return taskRunner(paths.cpuTests, paths.cpuTestsComplexityReport);
+        taskRunner(paths.cpuTests, paths.cpuTestsComplexityReport);
     };
     
     gulp.task('_complexityReportCpuTests', complexityReport.cpuTests);
     
     // this runs the complexity report for our E2E tests
     complexityReport.e2eTests = function e2eTests(){
-        return taskRunner(paths.e2eTests, paths.e2eTestsComplexityReport);
+        taskRunner(paths.e2eTests, paths.e2eTestsComplexityReport);
     };
     
     gulp.task('_complexityReportE2eTests', complexityReport.e2eTests);
     
     // this runs the complexity report four our gulp tests
     complexityReport.gulpTests = function gulpTests(){
-        return taskRunner(paths.gulpTests, paths.gulpTestsComplexityReport);
+        taskRunner(paths.gulpTests, paths.gulpTestsComplexityReport);
     };
     
     gulp.task('_complexityReportGulpTests', complexityReport.gulpTests);
     
     // this runs the complexity report for our load tests
     complexityReport.loadTests = function loadTests(){
-        return taskRunner(paths.loadTests, paths.loadTestsComplexityReport);
+        taskRunner(paths.loadTests, paths.loadTestsComplexityReport);
     };
     
     gulp.task('_complexityReportLoadTests', complexityReport.loadTests);
     
     // this runs the complexity report for our memory tests
     complexityReport.memoryTests = function memoryTests(){
-        return taskRunner(paths.memoryTests, paths.memoryTestsComplexityReport);
+        taskRunner(paths.memoryTests, paths.memoryTestsComplexityReport);
     };
     
     gulp.task('_complexityReportMemoryTests', complexityReport.memoryTests);
     
     // this runs the complexity report for our performance tests
     complexityReport.performanceTests = function performanceTests(){
-        return taskRunner(paths.performanceTests, paths.performanceTestsComplexityReport);
+        taskRunner(paths.performanceTests, paths.performanceTestsComplexityReport);
     };
     
     gulp.task('_complexityReportPerformanceTests', complexityReport.performanceTests);
     
     // this runs the complexity report for our workers tests
     complexityReport.workersTests = function workersTests(){
-        return taskRunner(paths.workersTests, paths.workersTestsComplexityReport);
+        taskRunner(paths.workersTests, paths.workersTestsComplexityReport);
     };
     
     gulp.task('_complexityReportWorkersTests', complexityReport.workersTests);

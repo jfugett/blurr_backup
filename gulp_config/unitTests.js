@@ -56,15 +56,13 @@ var generator = function generator(gulp, errorHandler){
                 reporter: 'html',
             }),
             gulp.dest(dest).on('end', function(){
-                return gulp.src(dest + 'coverage.html', false)
+                gulp.src(dest + 'coverage.html', false)
                     .pipe(browserOpener(dest + 'coverage.html', {app: 'chrome'}));
             })
 //            cover.enforce(enforcementOptions),
         );
         
         combined.on('error', errorHandler);
-        
-        return combined;
     };
     
     // create our base object here
@@ -84,28 +82,28 @@ var generator = function generator(gulp, errorHandler){
 
     // this runs the unit tests for the main app
     tests.app = function app(){
-        return taskRunner(paths.app, paths.appTests, paths.appCoverage);
+        taskRunner(paths.app, paths.appTests, paths.appCoverage);
     };
     
     gulp.task('_unitTestsApp', tests.app);
     
     // this runs the unit tests for the client
     tests.client = function client(){
-        return taskRunner(paths.client, paths.clientTests, paths.clientCoverage);
+        taskRunner(paths.client, paths.clientTests, paths.clientCoverage);
     };
     
     gulp.task('_unitTestsClient', tests.client);
     
     // this runs the unit tests for gulp
     tests.gulp = function gulp(){
-        return taskRunner(paths.gulp, paths.gulpTests, paths.gulpCoverage);
+        taskRunner(paths.gulp, paths.gulpTests, paths.gulpCoverage);
     };
     
     gulp.task('_unitTestsGulp', tests.gulp);
     
     // this runs the unit tests for the workers
     tests.workers = function workers(){
-        return taskRunner(paths.workers, paths.workersTests, paths.workersCoverage);
+        taskRunner(paths.workers, paths.workersTests, paths.workersCoverage);
     };
     
     gulp.task('_unitTestsWorkers', tests.workers);

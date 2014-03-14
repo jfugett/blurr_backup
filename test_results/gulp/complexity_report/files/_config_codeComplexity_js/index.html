@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>Plato - _config\codeComplexity.js</title>
+  <title>Plato - _config/codeComplexity.js</title>
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="">
@@ -37,7 +37,7 @@
 
 <div class="jumbotron">
   <div class="container">
-    <h1>_config\codeComplexity.js</h1>
+    <h1>_config/codeComplexity.js</h1>
   </div>
 </div>
 
@@ -45,11 +45,11 @@
   <div class="row">
     <div class="col-md-6">
       <h2 class="header">Maintainability <a href="http://blogs.msdn.com/b/codeanalysis/archive/2007/11/20/maintainability-index-range-and-meaning.aspx"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="A value between 0 and 100 that represents the relative ease of maintaining the code. A high value means better maintainability." data-original-title="Maintainability Index"  data-container="body"></i></a></h2>
-      <p class="stat">74.95</p>
+      <p class="stat">75.18</p>
     </div>
     <div class="col-md-6">
       <h2 class="header">Lines of code <i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Source Lines of Code / Logical Lines of Code" data-original-title="SLOC/LSLOC" data-container="body"></i></h2>
-      <p class="stat">177</p>
+      <p class="stat">175</p>
     </div>
   </div>
   <div class="row historical">
@@ -63,11 +63,11 @@
   <div class="row">
     <div class="col-md-6">
       <h2 class="header">Difficulty  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="The difficulty measure is related to the difficulty of the program to write or understand." data-original-title="Difficulty" data-container="body"></i></a></h2>
-      <p class="stat">14.41</p>
+      <p class="stat">14.36</p>
     </div>
     <div class="col-md-6">
       <h2 class="header">Estimated Errors  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Halstead's delivered bugs is an estimate for the number of errors in the implementation." data-original-title="Delivered Bugs" data-container="body"></i></a></h2>
-      <p class="stat">1.10</p>
+      <p class="stat">1.07</p>
     </div>
   </div>
 </div>
@@ -139,8 +139,6 @@ var generator = function generator(gulp, errorHandler){
         );
         
         combined.on(&#039;error&#039;, errorHandler);
-        
-        return combined;
     };
     
     // this is a shortcut method that allows us to run all of the complexity reports
@@ -166,98 +164,98 @@ var generator = function generator(gulp, errorHandler){
     
     // this runs the complexity report on our application files
     complexityReport.app = function app(){
-        return taskRunner(paths.app, paths.appComplexityReport);
+        taskRunner(paths.app, paths.appComplexityReport);
     };
     
     gulp.task(&#039;_complexityReportApp&#039;, complexityReport.app);
 
     // this runs the complexity report on our client files    
     complexityReport.client = function client(){
-        return taskRunner(paths.client, paths.clientComplexityReport);
+        taskRunner(paths.client, paths.clientComplexityReport);
     };
     
     gulp.task(&#039;_complexityReportClient&#039;, complexityReport.client);
     
     // this runs the complexity report on our gulp fiels
     complexityReport.gulp = function gulp(){
-        return taskRunner(paths.gulp, paths.gulpComplexityReport);
+        taskRunner(paths.gulp, paths.gulpComplexityReport);
     };
     
     gulp.task(&#039;_complexityReportGulp&#039;, complexityReport.gulp);
     
     // this runs the complexity report on our workers files
     complexityReport.workers = function workers(){
-        return taskRunner(paths.workers, paths.workersComplexityReport);
+        taskRunner(paths.workers, paths.workersComplexityReport);
     };
     
     gulp.task(&#039;_complexityReportWorkers&#039;, complexityReport.workers);
     
     // this runs the complexity report on our api tests
     complexityReport.apiTests = function apiTests(){
-        return taskRunner(paths.apiTests, paths.apiTestsComplexityReport);
+        taskRunner(paths.apiTests, paths.apiTestsComplexityReport);
     };
     
     gulp.task(&#039;_complexityReportApiTests&#039;, complexityReport.apiTests);
     
     // this runs the complexity report on our app tests
     complexityReport.appTests = function appTests(){
-        return taskRunner(paths.appTests, paths.appTestsComplexityReport);
+        taskRunner(paths.appTests, paths.appTestsComplexityReport);
     };
     
     gulp.task(&#039;_complexityReportAppTests&#039;, complexityReport.appTests);
     
     // this runs the complexity report for our client tests
     complexityReport.clientTests = function clientTests(){
-        return taskRunner(paths.clientTests, paths.clientTestsComplexityReport);
+        taskRunner(paths.clientTests, paths.clientTestsComplexityReport);
     };
     
     gulp.task(&#039;_complexityReportClientTests&#039;, complexityReport.clientTests);
     
     // this runs the complexity report for our cpu tests
     complexityReport.cpuTests = function cpuTests(){
-        return taskRunner(paths.cpuTests, paths.cpuTestsComplexityReport);
+        taskRunner(paths.cpuTests, paths.cpuTestsComplexityReport);
     };
     
     gulp.task(&#039;_complexityReportCpuTests&#039;, complexityReport.cpuTests);
     
     // this runs the complexity report for our E2E tests
     complexityReport.e2eTests = function e2eTests(){
-        return taskRunner(paths.e2eTests, paths.e2eTestsComplexityReport);
+        taskRunner(paths.e2eTests, paths.e2eTestsComplexityReport);
     };
     
     gulp.task(&#039;_complexityReportE2eTests&#039;, complexityReport.e2eTests);
     
     // this runs the complexity report four our gulp tests
     complexityReport.gulpTests = function gulpTests(){
-        return taskRunner(paths.gulpTests, paths.gulpTestsComplexityReport);
+        taskRunner(paths.gulpTests, paths.gulpTestsComplexityReport);
     };
     
     gulp.task(&#039;_complexityReportGulpTests&#039;, complexityReport.gulpTests);
     
     // this runs the complexity report for our load tests
     complexityReport.loadTests = function loadTests(){
-        return taskRunner(paths.loadTests, paths.loadTestsComplexityReport);
+        taskRunner(paths.loadTests, paths.loadTestsComplexityReport);
     };
     
     gulp.task(&#039;_complexityReportLoadTests&#039;, complexityReport.loadTests);
     
     // this runs the complexity report for our memory tests
     complexityReport.memoryTests = function memoryTests(){
-        return taskRunner(paths.memoryTests, paths.memoryTestsComplexityReport);
+        taskRunner(paths.memoryTests, paths.memoryTestsComplexityReport);
     };
     
     gulp.task(&#039;_complexityReportMemoryTests&#039;, complexityReport.memoryTests);
     
     // this runs the complexity report for our performance tests
     complexityReport.performanceTests = function performanceTests(){
-        return taskRunner(paths.performanceTests, paths.performanceTestsComplexityReport);
+        taskRunner(paths.performanceTests, paths.performanceTestsComplexityReport);
     };
     
     gulp.task(&#039;_complexityReportPerformanceTests&#039;, complexityReport.performanceTests);
     
     // this runs the complexity report for our workers tests
     complexityReport.workersTests = function workersTests(){
-        return taskRunner(paths.workersTests, paths.workersTestsComplexityReport);
+        taskRunner(paths.workersTests, paths.workersTestsComplexityReport);
     };
     
     gulp.task(&#039;_complexityReportWorkersTests&#039;, complexityReport.workersTests);

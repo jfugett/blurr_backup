@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>Plato - _config\jsHint.js</title>
+  <title>Plato - _config/jsHint.js</title>
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="">
@@ -37,7 +37,7 @@
 
 <div class="jumbotron">
   <div class="container">
-    <h1>_config\jsHint.js</h1>
+    <h1>_config/jsHint.js</h1>
   </div>
 </div>
 
@@ -45,11 +45,11 @@
   <div class="row">
     <div class="col-md-6">
       <h2 class="header">Maintainability <a href="http://blogs.msdn.com/b/codeanalysis/archive/2007/11/20/maintainability-index-range-and-meaning.aspx"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="A value between 0 and 100 that represents the relative ease of maintaining the code. A high value means better maintainability." data-original-title="Maintainability Index"  data-container="body"></i></a></h2>
-      <p class="stat">75.65</p>
+      <p class="stat">75.87</p>
     </div>
     <div class="col-md-6">
       <h2 class="header">Lines of code <i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Source Lines of Code / Logical Lines of Code" data-original-title="SLOC/LSLOC" data-container="body"></i></h2>
-      <p class="stat">183</p>
+      <p class="stat">181</p>
     </div>
   </div>
   <div class="row historical">
@@ -63,11 +63,11 @@
   <div class="row">
     <div class="col-md-6">
       <h2 class="header">Difficulty  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="The difficulty measure is related to the difficulty of the program to write or understand." data-original-title="Difficulty" data-container="body"></i></a></h2>
-      <p class="stat">16.61</p>
+      <p class="stat">16.54</p>
     </div>
     <div class="col-md-6">
       <h2 class="header">Estimated Errors  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Halstead's delivered bugs is an estimate for the number of errors in the implementation." data-original-title="Delivered Bugs" data-container="body"></i></a></h2>
-      <p class="stat">0.94</p>
+      <p class="stat">0.90</p>
     </div>
   </div>
 </div>
@@ -133,8 +133,6 @@ var generator = function generator(gulp, errorHandler){
         
         // attaches the errorHandler to the streams
         combined.on(&#039;error&#039;, errorHandler);
-        
-        return combined;
     };
 
     // shortcut method that will run all of the jsHint tasks
@@ -163,105 +161,105 @@ var generator = function generator(gulp, errorHandler){
     
     // handles the gulpfile and configs
     jsHint.gulp = function gulp(){
-        return jsHintFileRunner(paths.gulp);
+        jsHintFileRunner(paths.gulp);
     };
     
     gulp.task(&#039;_jsHintGulp&#039;, jsHint.gulp);
     
     // handles the application files
     jsHint.app = function gulp(){
-        return jsHintFileRunner(paths.app);
+        jsHintFileRunner(paths.app);
     };
     
     gulp.task(&#039;_jsHintApp&#039;, jsHint.app);
     
     // handles the client scripts
     jsHint.client = function client(){
-        return jsHintFileRunner(paths.client);
+        jsHintFileRunner(paths.client);
     };
     
     gulp.task(&#039;_jsHintClient&#039;, jsHint.client);
     
     // handles any worker scripts
     jsHint.worker = function worker(){
-        return jsHintFileRunner(paths.workers);
+        jsHintFileRunner(paths.workers);
     };
     
     gulp.task(&#039;_jsHintWorker&#039;, jsHint.worker);
     
     // handles the api test cases
     jsHint.apiTests = function apiTests(){
-        return jsHintFileRunner(paths.apiTests);
+        jsHintFileRunner(paths.apiTests);
     };
     
     gulp.task(&#039;_jsHintAPITests&#039;, jsHint.apiTests);
     
     // handles the application test cases
     jsHint.appTests = function appTests(){
-        return jsHintFileRunner(paths.appTests);
+        jsHintFileRunner(paths.appTests);
     };
     
     gulp.task(&#039;_jsHintAPPTests&#039;, jsHint.appTests);
     
     // handles the client test cases
     jsHint.clientTests = function clientTests(){
-        return jsHintFileRunner(paths.clientTests);
+        jsHintFileRunner(paths.clientTests);
     };
     
     gulp.task(&#039;_jsHintClientTests&#039;, jsHint.clientTests);
     
     // handles the cpu tests
     jsHint.cpuTests = function cpuTests(){
-        return jsHintFileRunner(paths.cpuTests);
+        jsHintFileRunner(paths.cpuTests);
     };
     
     gulp.task(&#039;_jsHintCPUTests&#039;, jsHint.cpuTests);
     
     // handles the end to end tests
     jsHint.e2eTests = function e2eTests(){
-        return jsHintFileRunner(paths.e2eTests);
+        jsHintFileRunner(paths.e2eTests);
     };
     
     gulp.task(&#039;_jsHintE2ETests&#039;, jsHint.e2eTests);
     
     // handles the gulp tests
     jsHint.gulpTests = function gulpTests(){
-        return jsHintFileRunner(paths.gulpTests);
+        jsHintFileRunner(paths.gulpTests);
     };
     
     gulp.task(&#039;_jsHintGulpTests&#039;, jsHint.gulpTests);
     
     // handles the load tests
     jsHint.loadTests = function loadTests(){
-        return jsHintFileRunner(paths.loadTests);
+        jsHintFileRunner(paths.loadTests);
     };
     
     gulp.task(&#039;_jsHintLoadTests&#039;, jsHint.loadTests);
     
     // handles the memory tests
     jsHint.memoryTests = function memoryTests(){
-        return jsHintFileRunner(paths.memoryTests);
+        jsHintFileRunner(paths.memoryTests);
     };
     
     gulp.task(&#039;_jsHintMemoryTests&#039;, jsHint.memoryTests);
     
     // handles the performance tests
     jsHint.performanceTests = function performanceTests(){
-        return jsHintFileRunner(paths.performanceTests);
+        jsHintFileRunner(paths.performanceTests);
     };
     
     gulp.task(&#039;_jsHintPerformanceTests&#039;, jsHint.performanceTests);
     
     // handles the worker tests
     jsHint.workerTests = function workerTests(){
-        return jsHintFileRunner(paths.workersTests);
+        jsHintFileRunner(paths.workersTests);
     };
     
     gulp.task(&#039;_jsHintWorkerTests&#039;, jsHint.workerTests);
 
     // this task opens the jshint.html file in the browser
     jsHint.open = function jsHintOpen(){
-        return gulp.src(paths.jsHintResults)
+        gulp.src(paths.jsHintResults)
             .pipe(browserOpen(&#039;&lt;%= file.path %&gt;&#039;, {app: &#039;chrome&#039;}));
     };
     

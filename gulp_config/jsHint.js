@@ -41,8 +41,6 @@ var generator = function generator(gulp, errorHandler){
         
         // attaches the errorHandler to the streams
         combined.on('error', errorHandler);
-        
-        return combined;
     };
 
     // shortcut method that will run all of the jsHint tasks
@@ -71,105 +69,105 @@ var generator = function generator(gulp, errorHandler){
     
     // handles the gulpfile and configs
     jsHint.gulp = function gulp(){
-        return jsHintFileRunner(paths.gulp);
+        jsHintFileRunner(paths.gulp);
     };
     
     gulp.task('_jsHintGulp', jsHint.gulp);
     
     // handles the application files
     jsHint.app = function gulp(){
-        return jsHintFileRunner(paths.app);
+        jsHintFileRunner(paths.app);
     };
     
     gulp.task('_jsHintApp', jsHint.app);
     
     // handles the client scripts
     jsHint.client = function client(){
-        return jsHintFileRunner(paths.client);
+        jsHintFileRunner(paths.client);
     };
     
     gulp.task('_jsHintClient', jsHint.client);
     
     // handles any worker scripts
     jsHint.worker = function worker(){
-        return jsHintFileRunner(paths.workers);
+        jsHintFileRunner(paths.workers);
     };
     
     gulp.task('_jsHintWorker', jsHint.worker);
     
     // handles the api test cases
     jsHint.apiTests = function apiTests(){
-        return jsHintFileRunner(paths.apiTests);
+        jsHintFileRunner(paths.apiTests);
     };
     
     gulp.task('_jsHintAPITests', jsHint.apiTests);
     
     // handles the application test cases
     jsHint.appTests = function appTests(){
-        return jsHintFileRunner(paths.appTests);
+        jsHintFileRunner(paths.appTests);
     };
     
     gulp.task('_jsHintAPPTests', jsHint.appTests);
     
     // handles the client test cases
     jsHint.clientTests = function clientTests(){
-        return jsHintFileRunner(paths.clientTests);
+        jsHintFileRunner(paths.clientTests);
     };
     
     gulp.task('_jsHintClientTests', jsHint.clientTests);
     
     // handles the cpu tests
     jsHint.cpuTests = function cpuTests(){
-        return jsHintFileRunner(paths.cpuTests);
+        jsHintFileRunner(paths.cpuTests);
     };
     
     gulp.task('_jsHintCPUTests', jsHint.cpuTests);
     
     // handles the end to end tests
     jsHint.e2eTests = function e2eTests(){
-        return jsHintFileRunner(paths.e2eTests);
+        jsHintFileRunner(paths.e2eTests);
     };
     
     gulp.task('_jsHintE2ETests', jsHint.e2eTests);
     
     // handles the gulp tests
     jsHint.gulpTests = function gulpTests(){
-        return jsHintFileRunner(paths.gulpTests);
+        jsHintFileRunner(paths.gulpTests);
     };
     
     gulp.task('_jsHintGulpTests', jsHint.gulpTests);
     
     // handles the load tests
     jsHint.loadTests = function loadTests(){
-        return jsHintFileRunner(paths.loadTests);
+        jsHintFileRunner(paths.loadTests);
     };
     
     gulp.task('_jsHintLoadTests', jsHint.loadTests);
     
     // handles the memory tests
     jsHint.memoryTests = function memoryTests(){
-        return jsHintFileRunner(paths.memoryTests);
+        jsHintFileRunner(paths.memoryTests);
     };
     
     gulp.task('_jsHintMemoryTests', jsHint.memoryTests);
     
     // handles the performance tests
     jsHint.performanceTests = function performanceTests(){
-        return jsHintFileRunner(paths.performanceTests);
+        jsHintFileRunner(paths.performanceTests);
     };
     
     gulp.task('_jsHintPerformanceTests', jsHint.performanceTests);
     
     // handles the worker tests
     jsHint.workerTests = function workerTests(){
-        return jsHintFileRunner(paths.workersTests);
+        jsHintFileRunner(paths.workersTests);
     };
     
     gulp.task('_jsHintWorkerTests', jsHint.workerTests);
 
     // this task opens the jshint.html file in the browser
     jsHint.open = function jsHintOpen(){
-        return gulp.src(paths.jsHintResults)
+        gulp.src(paths.jsHintResults)
             .pipe(browserOpen('<%= file.path %>', {app: 'chrome'}));
     };
     

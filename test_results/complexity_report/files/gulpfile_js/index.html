@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Plato - gulpfile.js</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <!--[if lt IE 9]>
+  <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+
+  <link href="../../assets/css/vendor/morris.css" rel="stylesheet">
+  <link href="../../assets/css/vendor/bootstrap.css" rel="stylesheet">
+  <link href="../../assets/css/vendor/font-awesome.css" rel="stylesheet">
+  <link href="../../assets/css/vendor/font-awesome-ie7.css" rel="stylesheet">
+  <link href="../../assets/css/vendor/codemirror.css" rel="stylesheet">
+  <link href="../../assets/css/plato.css" rel="stylesheet">
+  <link href="../../assets/css/plato-file.css" rel="stylesheet">
+
+</head>
+
+<body>
+
+<div class="navbar navbar-fixed-top">
+  <div class="container">
+    <a class="navbar-brand" href="http://github.com/es-analysis/plato">Plato on Github</a>
+    <ul class="nav navbar-nav">
+      <li>
+        <a href="../../index.html">Report Home</a>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<div class="jumbotron">
+  <div class="container">
+    <h1>gulpfile.js</h1>
+  </div>
+</div>
+
+<div class="container aggregate-stats">
+  <div class="row">
+    <div class="col-md-6">
+      <h2 class="header">Maintainability <a href="http://blogs.msdn.com/b/codeanalysis/archive/2007/11/20/maintainability-index-range-and-meaning.aspx"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="A value between 0 and 100 that represents the relative ease of maintaining the code. A high value means better maintainability." data-original-title="Maintainability Index"  data-container="body"></i></a></h2>
+      <p class="stat">89.53</p>
+    </div>
+    <div class="col-md-6">
+      <h2 class="header">Lines of code <i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Source Lines of Code / Logical Lines of Code" data-original-title="SLOC/LSLOC" data-container="body"></i></h2>
+      <p class="stat">117</p>
+    </div>
+  </div>
+  <div class="row historical">
+    <div class="col-md-6">
+      <p id="chart_historical_maint" class="chart"></p>
+    </div>
+    <div class="col-md-6">
+      <p id="chart_historical_sloc" class="chart"></p>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+      <h2 class="header">Difficulty  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="The difficulty measure is related to the difficulty of the program to write or understand." data-original-title="Difficulty" data-container="body"></i></a></h2>
+      <p class="stat">11.27</p>
+    </div>
+    <div class="col-md-6">
+      <h2 class="header">Estimated Errors  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Halstead's delivered bugs is an estimate for the number of errors in the implementation." data-original-title="Delivered Bugs" data-container="body"></i></a></h2>
+      <p class="stat">0.88</p>
+    </div>
+  </div>
+</div>
+
+<div class="container charts">
+  <div class="row">
+    <h2 class="header">Function weight</h2>
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+      <h3 class="chart-header">By Complexity <a href="http://en.wikipedia.org/wiki/Cyclomatic_complexity"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="This metric counts the number of distinct paths through a block of code. Lower values are better." data-original-title="Cyclomatic Complexity" data-container="body"></i></a></h3>
+      <div id="fn-by-complexity" class="stat"></div>
+    </div>
+    <div class="col-md-6">
+      <h3 class="chart-header">By SLOC  <i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Source Lines of Code / Logical Lines of Code" data-original-title="SLOC/LSLOC" data-container="body"></i></h3>
+      <div id="fn-by-sloc" class="stat"></div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="row">
+    <textarea id="file-source" class="col-md-12">&#039;use strict&#039;;
+
+var gulp = require(&#039;gulp&#039;);
+var runSequence = require(&#039;run-sequence&#039;);
+var growlerApp = require(&#039;./gulp_config/growlerApp&#039;);
+var reporterFunction = require(&#039;./gulp_config/reporterFunction&#039;)(growlerApp);
+var errorHandler = require(&#039;./gulp_config/errorHandler&#039;)(reporterFunction);
+var notifyHandler = require(&#039;./gulp_config/notifyHandler&#039;)(reporterFunction);
+var gulpOpen = require(&#039;gulp-open&#039;);
+
+gulp.task(&#039;default&#039;, function defaultTask(){
+    notifyHandler(&#039;Gulp Started&#039;, &#039;Sit back, relax, and let us handle it for you :)&#039;);
+    
+    runSequence(
+        [&#039;watchTest&#039;, &#039;watchBuild&#039;]
+    );
+});
+
+gulp.task(&#039;watchBuild&#039;, function watchBuild(){
+    runSequence(
+        [&#039;watchCodeComplexity&#039;, &#039;watchChangeLog&#039;, &#039;watchTodos&#039;]
+    );
+});
+
+gulp.task(&#039;watchTest&#039;, function watchTest(){
+    runSequence(
+        [&#039;watchJsHint&#039;, &#039;watchLineCount&#039;]
+    );
+});
+
+gulp.task(&#039;test&#039;, function test(){
+    notifyHandler(&#039;Started Running Tests&#039;, &#039;We\&#039;re now running the tests for the application&#039;);
+    
+    runSequence(
+        &#039;jsHint&#039;,
+        &#039;lineCounter&#039;,
+        &#039;complexityReport&#039;,
+        function callback(){
+            notifyHandler(&#039;Finished Running Tests&#039;, &#039;The tests have now completed running&#039;);
+        }
+    );
+});
+
+gulp.task(&#039;build&#039;, function build(){
+    notifyHandler(&#039;Starting Build&#039;, &#039;We\&#039;re now building the application&#039;);
+    
+    runSequence(
+        &#039;test&#039;,
+        &#039;bumpVersion&#039;,
+        &#039;generateTodos&#039;,
+        &#039;generateChangeLog&#039;,
+        function callback(){
+            notifyHandler(&#039;Finished Building Application&#039;, &#039;The application has finished building&#039;);
+        }
+    );
+});
+
+gulp.task(&#039;deploy&#039;, function deploy(){
+    notifyHandler(&#039;Starting Deploy Process&#039;, &#039;We\&#039;re starting the deployment process for you now&#039;);
+    
+    runSequence(
+        &#039;build&#039;,
+        function callback(){
+            notifyHandler(&#039;Finished Deploying&#039;, &#039;The application has finished being deployed&#039;);
+        }
+    );
+});
+
+var jsHint = require(&#039;./gulp_config/jsHint&#039;)(gulp, errorHandler);
+gulp.task(&#039;jsHint&#039;, jsHint);
+
+var lineCounter = require(&#039;./gulp_config/lineCounter&#039;)(gulp, errorHandler);
+gulp.task(&#039;lineCounter&#039;, lineCounter.lineCounter);
+gulp.task(&#039;lineCounterConsole&#039;, lineCounter.lineCounterConsole);
+gulp.task(&#039;lineCounterFile&#039;, lineCounter.lineCounterFile);
+
+var bumpVersion = require(&#039;./gulp_config/bumpVersion&#039;)(gulp, errorHandler, notifyHandler);
+gulp.task(&#039;bumpVersion&#039;, bumpVersion);
+
+var generateTodos = require(&#039;./gulp_config/generateTodos&#039;)(gulp, errorHandler);
+gulp.task(&#039;generateTodos&#039;, generateTodos);
+
+var generateChangeLog = require(&#039;./gulp_config/generateChangeLog&#039;)(gulp, errorHandler);
+gulp.task(&#039;generateChangeLog&#039;, generateChangeLog);
+
+var watchJsHint = require(&#039;./gulp_config/watchJsHint&#039;)(gulp, errorHandler);
+gulp.task(&#039;watchJsHint&#039;, watchJsHint);
+
+var generateComplexityReport = require(&#039;./gulp_config/plato&#039;)(gulp, errorHandler);
+gulp.task(&#039;generateComplexityReport&#039;, generateComplexityReport);
+
+gulp.task(&#039;openComplexityReport&#039;, function openComplexityReport(){
+    return gulp.src(&#039;./test_results/complexity_report/index.html&#039;)
+        .pipe(gulpOpen(&#039;file://&lt;%= file.path %&gt;&#039;,{app:&#039;chrome&#039;}));
+});
+
+gulp.task(&#039;complexityReport&#039;, function complexityReport(){
+    runSequence(
+        &#039;generateComplexityReport&#039;,
+        &#039;openComplexityReport&#039;
+    );
+});
+
+var watchCodeComplexity = require(&#039;./gulp_config/watchCodeComplexity&#039;)(gulp, errorHandler);
+gulp.task(&#039;watchCodeComplexity&#039;, watchCodeComplexity);
+
+var watchLineCount = require(&#039;./gulp_config/watchLineCount&#039;)(gulp, errorHandler);
+gulp.task(&#039;watchLineCount&#039;, watchLineCount);
+
+var watchChangeLog = require(&#039;./gulp_config/watchChangeLog&#039;)(gulp, errorHandler);
+gulp.task(&#039;watchChangeLog&#039;, watchChangeLog);
+
+var watchTodos = require(&#039;./gulp_config/watchTodos&#039;)(gulp, errorHandler);
+gulp.task(&#039;watchTodos&#039;, watchTodos);
+
+var appUnitTests = require(&#039;./gulp_config/jasmine&#039;)(gulp, errorHandler).app;
+gulp.task(&#039;appUnitTests&#039;, appUnitTests);
+
+/*
+* @todo
+*
+* code coverage - default, test
+* code coverage enforcement - default, test
+* unit testing for node - default, test
+* unit testing for front-end - default, test
+* integration testing - test
+* api testing - test
+* performance testing - test
+* load testng - test
+* cpu testing - test
+* memory testing - test
+* worker testing - test
+* e2e testing - test
+* less compilation - default, build
+* js minification - build
+* css minification - build
+* image minification - build
+* html minification - build
+* auto reload of browser - default
+* auto reload of server - default
+* Integrated Browser testing (sauce labs) - test
+* CDN support - build/deploy (not sure which)
+* Browserify on shared files - default, build
+* cache busting - default, build
+* angular template precompilation and concatenation - default, build
+* ngmin - build/deploy (not sure which)
+* phantom, casper, slimer, and zombie.js support - test
+* css concatenation - default, build
+* js concatenation - default, build
+* json strip comments - build
+* code documentation generator - default, build
+* static site generation - for SEO - deploy
+* !18n file pre-compilation - default, build
+* !18n caching - build/deploy (may be better to make this one happen through the CDN)
+* Automatic setup/installation script - deploy
+* Automated release tool - deploy
+*/</textarea>
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="container">
+    <p>.</p>
+  </div>
+</footer>
+
+<script type="text/html" id="complexity-popover-template">
+  <div class="complexity-notice">
+    Complexity : {{ complexity.cyclomatic }} <br>
+    Length : {{ complexity.halstead.length }} <br>
+    Difficulty : {{ complexity.halstead.difficulty.toFixed(2) }} <br>
+    Est # bugs : {{ complexity.halstead.bugs.toFixed(2) }}<br>
+  </div>
+</script>
+
+<script type="text/javascript" src="../../assets/scripts/bundles/core-bundle.js"></script>
+<script type="text/javascript" src="../../assets/scripts/bundles/codemirror.js"></script>
+<script type="text/javascript" src="../../assets/scripts/codemirror.markpopovertext.js"></script>
+<script type="text/javascript" src="report.js"></script>
+<script type="text/javascript" src="report.history.js"></script>
+<script type="text/javascript" src="../../assets/scripts/plato-file.js"></script>
+</body>
+</html>

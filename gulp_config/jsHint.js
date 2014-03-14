@@ -169,7 +169,7 @@ var generator = function generator(gulp, errorHandler){
 
     // this task opens the jshint.html file in the browser
     jsHint.open = function jsHintOpen(){
-        return gulp.src(reporter.outputFile)
+        return gulp.src(paths.jsHintResults)
             .pipe(browserOpen('<%= file.path %>', {app: 'chrome'}));
     };
     

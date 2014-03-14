@@ -41,10 +41,9 @@ var generator = function generator(gulp, errorHandler){
                     newmi: true
                 }
             }).on('end', function(){
-                console.log('IM HEREEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE');
                 gulp.src(dest + 'index.html')
                     .pipe(gdebug())
-                    .pipe(browserOpener(dest, {app: 'chrome'}));
+                    .pipe(browserOpener(dest + 'index.html', {app: 'chrome'}));
             })
         );
         
